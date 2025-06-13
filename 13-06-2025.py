@@ -38,14 +38,14 @@ Answer the 8 questions below to get personalized feedback.
 
 # --- Questions and Options ---
 questions = [
-    "1. How often do you feel overwhelmed by your daily tasks?",
-    "2. How frequently do you find it hard to relax after work or study?",
-    "3. How often do you experience headaches or muscle tension due to stress?",
-    "4. How frequently do you have trouble sleeping because of stress?",
-    "5. How often do you feel irritable or easily frustrated?",
-    "6. How often do you feel motivated to accomplish your goals?",
-    "7. How frequently do you feel satisfied with your personal achievements?",
-    "8. How often do you feel energized and focused throughout the day?"
+    "1. In the last 1- 4 weeks, I found it hard to wind down.",
+    "2. In the last 1- 4 weeks, I tended to over-react to situations.",
+    "3. In the last 1- 4 weeks, I felt restless.",
+    "4. In the last 1- 4 weeks, I felt easily agitated.",
+    "5. In the last 1-4 weeks, I felt difficult to relax.",
+    "6. During the past 1 - 4 weeks, How often did you find yourself not working carefully as you should?",
+    "7. During the past 1 - 4 weeks, how often was the quality of your work lower than it should be?",
+    "8. During the past 1 - 4 weeks, how often do you not fully concentrate on your work?"
 ]
 
 options = ["Very Rare", "Rare", "Moderate", "Frequent", "Very Frequent"]
