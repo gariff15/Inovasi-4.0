@@ -55,8 +55,8 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🎯 Stresformance - Reverse Performance Meter Colors")
-st.markdown("Answer the questions and click **Assess** to see your results with reversed performance meter colors!")
+st.title("🎯 Stresformance Tracker")
+st.markdown("Answer all the questions")
 
 stress_questions = [
     "1. In the last 1-4 weeks, I found it hard to wind down.",
@@ -109,7 +109,7 @@ def trigger_confetti():
     html("<script>fireConfetti();</script>", height=0)
 
 # --- Stress Level Section ---
-st.header("😰 Stress Level Questions")
+st.header("😰 Your Stress Measure")
 stress_answers = []
 for i, q in enumerate(stress_questions):
     ans = st.radio(q, options, key=f"stress_q{i+1}", horizontal=True, index=None)
@@ -158,7 +158,7 @@ if stress_assess:
 
 # --- Performance Level Section ---
 st.markdown("---")
-st.header("🚀 Performance Level Questions")
+st.header("🚀 Your Performance Measure")
 performance_answers = []
 for i, q in enumerate(performance_questions):
     ans = st.radio(q, options, key=f"perf_q{i+6}", horizontal=True, index=None)
