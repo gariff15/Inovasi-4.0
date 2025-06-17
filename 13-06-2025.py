@@ -155,10 +155,10 @@ if stress_assess:
 
         if stress_class in ["High", "Very High"]:
             show_animation("stress_high")
-            st.markdown("### ⚠️ Stress is high! Take care of yourself!")
+            st.markdown("⚠️ Stress is high! Take care of yourself!")
         else:
             show_animation("stress_low", celebration=True)
-            st.markdown("### 🎉 Stress is low! Keep up the good work!")
+            st.markdown("🎉 Stress is low! Keep up the good work!")
 
 # --- Performance Level Section ---
 st.markdown("---")
