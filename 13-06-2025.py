@@ -1,6 +1,5 @@
 import streamlit as st
 import plotly.graph_objects as go
-import base64
 from streamlit.components.v1 import html
 
 # --- CSS for aesthetics ---
@@ -39,6 +38,7 @@ Assess your stress levels and performance with our innovative, interactive tool.
 Answer the questions below and click **Assess** for each section to see your results.
 """)
 
+# Questions
 stress_questions = [
     "1. In the last 1-4 weeks, I found it hard to wind down.",
     "2. In the last 1-4 weeks, I tended to over-react to situations.",
@@ -90,19 +90,6 @@ def classify_performance_level(mean):
         return "Low"
     else:
         return "Very Low"
-
-# Sound effects base64 (short mp3 clips)
-# For demo, these are placeholders. Replace with your own base64 audio data or URLs.
-happy_sound_base64 = """
-SUQzAwAAAAAA... (your base64 encoded happy sound mp3 here)
-"""
-disappointing_sound_base64 = """
-SUQzAwAAAAAA... (your base64 encoded disappointing sound mp3 here)
-"""
-
-def play_sound(base64_audio):
-    audio_bytes = base64.b64decode(base64_audio)
-    st.audio(audio_bytes, format="audio/mp3")
 
 def scroll_to(id_name):
     scroll_js = f"""
@@ -158,14 +145,9 @@ if stress_assess:
 
         # Play sound effect based on classification
         if stress_class in ["Very Low", "Low"]:
-            # Play happy sound
-            # Replace with your actual base64 audio data
-            # play_sound(happy_sound_base64)
-            st.success("🎉 Happy sound playing!")  # Placeholder text for demo
+            st.audio("happy.mp3", format="audio/mpeg")
         else:
-            # Play disappointing sound
-            # play_sound(disappointing_sound_base64)
-            st.error("😞 Disappointing sound playing!")  # Placeholder text for demo
+            st.audio("disappointing.mp3", format="audio/mpeg")
 
 # --- Performance Level Section ---
 st.markdown("---")
@@ -211,10 +193,6 @@ if performance_assess:
 
         # Play sound effect based on classification (reverse logic)
         if perf_class in ["Very High", "High"]:
-            # Play happy sound
-            # play_sound(happy_sound_base64)
-            st.success("🎉 Happy sound playing!")  # Placeholder text for demo
+            st.audio("happy.mp3", format="audio/mpeg")
         else:
-            # Play disappointing sound
-            # play_sound(disappointing_sound_base64)
-            st.error("😞 Disappointing sound playing!")  # Placeholder text for demo
+            st.audio("disappointing.mp3", format="audio/mpeg")
