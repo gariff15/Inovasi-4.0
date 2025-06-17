@@ -7,38 +7,77 @@ st.components.v1.html("""
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 """, height=0)
 
-# CSS styling to minimize gaps and style results and animations
+# CSS styling for neat layout and effects
 st.markdown("""
     <style>
+    body {
+        background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+        color: #222;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
     .result-box {
-        background: #f0f4ff;
-        border-radius: 12px;
-        padding: 1em 1em 0.5em 1em;
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 16px;
+        padding: 1.5em;
         margin-top: 1em;
-        box-shadow: 0 2px 8px rgba(79, 139, 249, 0.15);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         text-align: center;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        transition: all 0.5s ease;
     }
     .animation-container {
-        margin-top: -35px !important;
-        margin-bottom: 0.5em !important;
+        margin-top: -40px;
+        margin-bottom: 1em;
         text-align: center;
     }
-    .celebration-container {
-        margin-top: -45px !important;
-        margin-bottom: 1em !important;
-        display: flex;
-        justify-content: center;
-        gap: 15px;
+    h1, h2, h3 {
+        text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
     }
-    .celebration-container lottie-player {
-        width: 100px !important;
-        height: 100px !important;
+    .confetti {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        z-index: 9999;
     }
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🎯 Stresformance with Animations")
-st.markdown("Answer the questions and click **Assess** to see your results with lively animations!")
+# Confetti JS for celebration effect
+CONFETTI_JS = """
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script>
+function fireConfetti() {
+    var duration = 5 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function() {
+        var timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            return clearInterval(interval);
+        }
+
+        var particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0, 1), y: Math.random() - 0.2 } }));
+    }, 250);
+}
+</script>
+"""
+
+st.components.v1.html(CONFETTI_JS, height=0)
+
+st.title("🎯 Stresformance - Fascinating Edition")
+st.markdown("Answer the questions and click **Assess** to see your results with stunning effects!")
 
 stress_questions = [
     "1. In the last 1-4 weeks, I found it hard to wind down.",
@@ -87,36 +126,15 @@ def scroll_to(id_name):
     """
     html(js, height=0)
 
-def show_animation(animation_key, celebration=False):
-    animations = {
-        "stress_high": "https://assets3.lottiefiles.com/packages/lf20_1pxqjqps.json",  # Disaster / Stressful fire animation
-        "stress_low": "https://assets3.lottiefiles.com/packages/lf20_jbrw3hcz.json",   # Calm celebration
-        "perf_high": "https://assets3.lottiefiles.com/packages/lf20_touohxv0.json",   # Party/confetti
-        "perf_low": "https://assets3.lottiefiles.com/packages/lf20_4kx2q32n.json"     # Sad gloomy
-    }
-    balloon = "https://assets2.lottiefiles.com/packages/lf20_qp1q7mct.json"  # Balloon
-    clap = "https://assets8.lottiefiles.com/packages/lf20_3rwasyjy.json"      # Clap
-
-    url = animations.get(animation_key)
-    if url:
-        html(f"""
-        <div class="animation-container">
-            <lottie-player src="{url}" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></lottie-player>
-        </div>
-        """, height=260)
-    if celebration:
-        html(f"""
-        <div class="celebration-container">
-            <lottie-player src="{balloon}" background="transparent" speed="1" loop autoplay></lottie-player>
-            <lottie-player src="{clap}" background="transparent" speed="1" loop autoplay></lottie-player>
-        </div>
-        """, height=120)
+def trigger_confetti():
+    # Call JS function to fire confetti
+    html("<script>fireConfetti();</script>", height=0)
 
 # --- Stress Level Section ---
 st.header("😰 Stress Level Questions")
 stress_answers = []
 for i, q in enumerate(stress_questions):
-    ans = st.radio(q, options, key=f"stress_q{i+1}", horizontal=True)
+    ans = st.radio(q, options, key=f"stress_q{i+1}", horizontal=True, index=None)
     stress_answers.append(ans)
 stress_assess = st.button("Assess Stress Level")
 
@@ -154,18 +172,17 @@ if stress_assess:
         scroll_to("stress_result")
 
         if stress_class in ["High", "Very High"]:
-            show_animation("stress_high")
-            st.subheader("⚠️ Stress is high! Take care of yourself!")
+            st.markdown("<h3 style='color:#d32f2f; text-shadow: 0 0 10px #ff0000;'>⚠️ High Stress Detected! Please take care!</h3>", unsafe_allow_html=True)
         else:
-            show_animation("stress_low", celebration=True)
-            st.subheader("🎉 Stress is low! Keep up the good work!")
+            st.markdown("<h3 style='color:#388e3c; text-shadow: 0 0 10px #00ff00;'>🎉 Low Stress! Keep it up!</h3>", unsafe_allow_html=True)
+            trigger_confetti()
 
 # --- Performance Level Section ---
 st.markdown("---")
 st.header("🚀 Performance Level Questions")
 performance_answers = []
 for i, q in enumerate(performance_questions):
-    ans = st.radio(q, options, key=f"perf_q{i+6}", horizontal=True)
+    ans = st.radio(q, options, key=f"perf_q{i+6}", horizontal=True, index=None)
     performance_answers.append(ans)
 performance_assess = st.button("Assess Performance Level")
 
@@ -203,8 +220,7 @@ if performance_assess:
         scroll_to("perf_result")
 
         if perf_class in ["Very High", "High"]:
-            show_animation("perf_high", celebration=True)
-            st.subheader("🎉 Excellent performance! Keep shining!")
+            st.markdown("<h3 style='color:#1976d2; text-shadow: 0 0 10px #00bfff;'>🎉 Outstanding Performance! Keep shining!</h3>", unsafe_allow_html=True)
+            trigger_confetti()
         else:
-            show_animation("perf_low")
-            st.subheader("😞 Performance is low. Don't give up!")
+            st.markdown("<h3 style='color:#6d4c41; text-shadow: 0 0 10px #654321;'>😞 Performance is low. Stay motivated!</h3>", unsafe_allow_html=True)
