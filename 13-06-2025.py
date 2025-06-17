@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.graph_objects as go
 from streamlit.components.v1 import html
 
-# --- CSS for aesthetics ---
+# CSS styling
 st.markdown("""
     <style>
     .main {
@@ -34,8 +34,7 @@ st.markdown("""
 st.title("🎯 Stresformance")
 st.markdown("""
 Welcome to **Stresformance**!  
-Assess your stress levels and performance with our innovative, interactive tool.  
-Answer the questions below and click **Assess** for each section to see your results.
+Answer the questions and click **Assess** to see your results and hear sound effects automatically.
 """)
 
 stress_questions = [
@@ -101,35 +100,39 @@ def scroll_to(id_name):
     """
     html(scroll_js, height=0)
 
-def play_sound_automatic(audio_file_path):
+def play_sound_automatic(audio_url):
     audio_html = f"""
     <audio autoplay>
-      <source src="{audio_file_path}" type="audio/mpeg">
-      Your browser does not support the audio element.
+        <source src="{audio_url}" type="audio/mpeg" />
+        Your browser does not support the audio element.
     </audio>
     """
     html(audio_html, height=0)
 
-# --- Stress Level Section ---
+# Google Drive direct links for your sounds
+HAPPY_SOUND_URL = "https://drive.google.com/uc?export=download&id=1nKTjeW0TFpFmT5R-caEzhrgCswGroVeU"
+DISAPPOINTING_SOUND_URL = "https://drive.google.com/uc?export=download&id=1yUT3DTbfxinbknPI7wNj2eZqizqYw6d-"
+
+# Stress Level Section
 st.markdown("## 😰 Stress Level Questions (1-5)")
-stress_responses = []
+stress_answers = []
 for i, q in enumerate(stress_questions):
     ans = st.radio(q, options, key=f"stress_q{i+1}", horizontal=True, index=None)
-    stress_responses.append(ans)
+    stress_answers.append(ans)
 stress_assess = st.button("Assess Stress Level")
 
 if stress_assess:
-    if None in stress_responses:
+    if None in stress_answers:
         st.warning("Please answer all Stress Level questions before assessing.")
     else:
-        stress_scores = [option_to_score(ans) for ans in stress_responses]
-        mean_stress = sum(stress_scores) / len(stress_scores)
+        scores = [option_to_score(a) for a in stress_answers]
+        mean_stress = sum(scores) / len(scores)
         stress_class = classify_stress_level(mean_stress)
 
         st.markdown('<div id="stress_result" class="result-box">', unsafe_allow_html=True)
-        st.subheader(f"Stress Level: {stress_class}  (Mean score: {mean_stress:.2f})")
+        st.subheader(f"Stress Level: {stress_class} (Mean: {mean_stress:.2f})")
 
-        fig_stress = go.Figure(go.Indicator(
+        fig = go.Figure(go.Indicator(
             mode="gauge+number",
             value=mean_stress,
             domain={'x': [0, 1], 'y': [0, 1]},
@@ -146,37 +149,37 @@ if stress_assess:
                 ]
             }
         ))
-        st.plotly_chart(fig_stress, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
         scroll_to("stress_result")
 
         if stress_class in ["Very Low", "Low"]:
-            play_sound_automatic("happy.mp3")
+            play_sound_automatic(HAPPY_SOUND_URL)
         else:
-            play_sound_automatic("disappointing.mp3")
+            play_sound_automatic(DISAPPOINTING_SOUND_URL)
 
-# --- Performance Level Section ---
+# Performance Level Section
 st.markdown("---")
 st.markdown("## 🚀 Performance Level Questions (6-11)")
-performance_responses = []
+performance_answers = []
 for i, q in enumerate(performance_questions):
     ans = st.radio(q, options, key=f"perf_q{i+6}", horizontal=True, index=None)
-    performance_responses.append(ans)
+    performance_answers.append(ans)
 performance_assess = st.button("Assess Performance Level")
 
 if performance_assess:
-    if None in performance_responses:
+    if None in performance_answers:
         st.warning("Please answer all Performance Level questions before assessing.")
     else:
-        perf_scores = [option_to_score(ans) for ans in performance_responses]
-        mean_perf = sum(perf_scores) / len(perf_scores)
+        scores = [option_to_score(a) for a in performance_answers]
+        mean_perf = sum(scores) / len(scores)
         perf_class = classify_performance_level(mean_perf)
 
         st.markdown('<div id="perf_result" class="result-box">', unsafe_allow_html=True)
-        st.subheader(f"Performance Level: {perf_class}  (Mean score: {mean_perf:.2f})")
+        st.subheader(f"Performance Level: {perf_class} (Mean: {mean_perf:.2f})")
 
-        fig_perf = go.Figure(go.Indicator(
+        fig = go.Figure(go.Indicator(
             mode="gauge+number",
             value=mean_perf,
             domain={'x': [0, 1], 'y': [0, 1]},
@@ -193,12 +196,13 @@ if performance_assess:
                 ]
             }
         ))
-        st.plotly_chart(fig_perf, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
         scroll_to("perf_result")
 
+        # Reverse logic for performance sounds
         if perf_class in ["Very High", "High"]:
-            play_sound_automatic("happy.mp3")
+            play_sound_automatic(HAPPY_SOUND_URL)
         else:
-            play_sound_automatic("disappointing.mp3")
+            play_sound_automatic(DISAPPOINTING_SOUND_URL)
