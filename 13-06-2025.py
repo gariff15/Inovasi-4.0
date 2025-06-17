@@ -2,53 +2,8 @@ import streamlit as st
 import plotly.graph_objects as go
 from streamlit.components.v1 import html
 
-# Inject Lottie player script once
+# Inject Lottie player script once for confetti effect
 st.components.v1.html("""
-<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-""", height=0)
-
-# CSS styling for neat layout and effects
-st.markdown("""
-    <style>
-    body {
-        background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-        color: #222;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .result-box {
-        background: rgba(255, 255, 255, 0.85);
-        border-radius: 16px;
-        padding: 1.5em;
-        margin-top: 1em;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        text-align: center;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        transition: all 0.5s ease;
-    }
-    .animation-container {
-        margin-top: -40px;
-        margin-bottom: 1em;
-        text-align: center;
-    }
-    h1, h2, h3 {
-        text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-    }
-    .confetti {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        top: 0;
-        left: 0;
-        z-index: 9999;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-# Confetti JS for celebration effect
-CONFETTI_JS = """
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 <script>
 function fireConfetti() {
@@ -72,12 +27,36 @@ function fireConfetti() {
     }, 250);
 }
 </script>
-"""
+""", height=0)
 
-st.components.v1.html(CONFETTI_JS, height=0)
+# CSS styling for neat layout and effects
+st.markdown("""
+    <style>
+    body {
+        background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+        color: #222;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .result-box {
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 16px;
+        padding: 1.5em;
+        margin-top: 1em;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        text-align: center;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        transition: all 0.5s ease;
+    }
+    h1, h2, h3 {
+        text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-st.title("🎯 Stresformance Survey")
-st.markdown("Answer the questions and click **Assess** to see your results with stunning effects!")
+st.title("🎯 Stresformance - Reverse Performance Meter Colors")
+st.markdown("Answer the questions and click **Assess** to see your results with reversed performance meter colors!")
 
 stress_questions = [
     "1. In the last 1-4 weeks, I found it hard to wind down.",
@@ -127,7 +106,6 @@ def scroll_to(id_name):
     html(js, height=0)
 
 def trigger_confetti():
-    # Call JS function to fire confetti
     html("<script>fireConfetti();</script>", height=0)
 
 # --- Stress Level Section ---
@@ -149,6 +127,7 @@ if stress_assess:
         st.markdown('<div id="stress_result" class="result-box">', unsafe_allow_html=True)
         st.subheader(f"Stress Level: {stress_class} (Mean: {mean_stress:.2f})")
 
+        # Stress meter: normal color scale (green = low stress)
         fig = go.Figure(go.Indicator(
             mode="gauge+number",
             value=mean_stress,
@@ -158,11 +137,11 @@ if stress_assess:
                 'axis': {'range': [1,5]},
                 'bar': {'color': "royalblue"},
                 'steps': [
-                    {'range': [1,1.5], 'color': "#cce5ff"},
-                    {'range': [1.5,2], 'color': "#b3ffd9"},
-                    {'range': [2,3], 'color': "#fffcb3"},
+                    {'range': [1,1.5], 'color': "#b3ffd9"},  # greenish low stress
+                    {'range': [1.5,2], 'color': "#ccffcc"},
+                    {'range': [2,3], 'color': "#ffffcc"},
                     {'range': [3,4], 'color': "#ffd6b3"},
-                    {'range': [4,5], 'color': "#ffb3b3"},
+                    {'range': [4,5], 'color': "#ffb3b3"},  # reddish high stress
                 ]
             }
         ))
@@ -197,6 +176,8 @@ if performance_assess:
         st.markdown('<div id="perf_result" class="result-box">', unsafe_allow_html=True)
         st.subheader(f"Performance Level: {perf_class} (Mean: {mean_perf:.2f})")
 
+        # Performance meter: reversed color scale (green = low performance, red = high performance)
+        # So invert colors: low values (good performance) red, high values (bad) green
         fig = go.Figure(go.Indicator(
             mode="gauge+number",
             value=mean_perf,
@@ -204,13 +185,13 @@ if performance_assess:
             title={'text': "Performance Meter"},
             gauge={
                 'axis': {'range': [1,5]},
-                'bar': {'color': "green"},
+                'bar': {'color': "crimson"},
                 'steps': [
-                    {'range': [1,1.5], 'color': "#b3ffd9"},
-                    {'range': [1.5,2], 'color': "#cce5ff"},
+                    {'range': [1,1.5], 'color': "#ffb3b3"},  # red = very high performance (good)
+                    {'range': [1.5,2], 'color': "#ffd6b3"},
                     {'range': [2,3], 'color': "#fffcb3"},
-                    {'range': [3,4], 'color': "#ffd6b3"},
-                    {'range': [4,5], 'color': "#ffb3b3"},
+                    {'range': [3,4], 'color': "#ccffcc"},
+                    {'range': [4,5], 'color': "#b3ffd9"},  # green = very low performance (bad)
                 ]
             }
         ))
@@ -219,8 +200,11 @@ if performance_assess:
 
         scroll_to("perf_result")
 
+        # Reverse animation color logic:
+        # High/Very High performance (mean low) => celebration (confetti)
+        # Low/Very Low performance (mean high) => caution message, no confetti
         if perf_class in ["Very High", "High"]:
-            st.markdown("<h3 style='color:#1976d2; text-shadow: 0 0 10px #00bfff;'>🎉 Outstanding Performance! Keep shining!</h3>", unsafe_allow_html=True)
+            st.markdown("<h3 style='color:#d32f2f; text-shadow: 0 0 10px #ff0000;'>🎉 Outstanding Performance! Keep shining!</h3>", unsafe_allow_html=True)
             trigger_confetti()
         else:
-            st.markdown("<h3 style='color:#6d4c41; text-shadow: 0 0 10px #654321;'>😞 Performance is low. Stay motivated!</h3>", unsafe_allow_html=True)
+            st.markdown("<h3 style='color:#388e3c; text-shadow: 0 0 10px #006400;'>😞 Performance is low. Stay motivated!</h3>", unsafe_allow_html=True)
