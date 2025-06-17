@@ -43,9 +43,12 @@ questions = [
     "3. In the last 1- 4 weeks, I felt restless.",
     "4. In the last 1- 4 weeks, I felt easily agitated.",
     "5. In the last 1-4 weeks, I felt difficult to relax.",
-    "6. During the past 1 - 4 weeks, How often did you find yourself not working carefully as you should?",
-    "7. During the past 1 - 4 weeks, how often was the quality of your work lower than it should be?",
-    "8. During the past 1 - 4 weeks, how often do you not fully concentrate on your work?"
+    "6. During the past 1 - 4 weeks, how often was your performance is lower than most workers at your workplace?",
+    "7. During the past 1 - 4 weeks, how often did you do no work at times when you were supposed to be working?",
+    "8. During the past 1 - 4 weeks, how often did you find yourself not working carefully as you should?",
+    "9. During the past 1 - 4 weeks, how often was the quality of your work lower than it should be?",
+    "10. During the past 1 - 4 weeks, how often do you not fully concentrate on your work?",
+    "11. During the past 1 - 4 weeks, how often did health problems limit the kind or amount of work you could do?"
 ]
 
 options = ["Very Rare", "Rare", "Moderate", "Frequent", "Very Frequent"]
