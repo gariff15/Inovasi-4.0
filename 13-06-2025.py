@@ -33,7 +33,7 @@ st.markdown("""
 st.title("🎯 Stresformance")
 st.markdown("""
 Welcome to **Stresformance**!  
-Assess your stress levels and performance with our innovative, interactive tool.  
+Assess your stress levels and performance with our scientific question.  
 Answer the 11 questions below to get personalized feedback.
 """)
 
