@@ -38,7 +38,6 @@ Assess your stress levels and performance with our innovative, interactive tool.
 Answer the questions below and click **Assess** for each section to see your results.
 """)
 
-# Questions
 stress_questions = [
     "1. In the last 1-4 weeks, I found it hard to wind down.",
     "2. In the last 1-4 weeks, I tended to over-react to situations.",
@@ -102,6 +101,15 @@ def scroll_to(id_name):
     """
     html(scroll_js, height=0)
 
+def play_sound_automatic(audio_file_path):
+    audio_html = f"""
+    <audio autoplay>
+      <source src="{audio_file_path}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    """
+    html(audio_html, height=0)
+
 # --- Stress Level Section ---
 st.markdown("## 😰 Stress Level Questions (1-5)")
 stress_responses = []
@@ -143,11 +151,10 @@ if stress_assess:
 
         scroll_to("stress_result")
 
-        # Play sound effect based on classification
         if stress_class in ["Very Low", "Low"]:
-            st.audio("happy.mp3.mp3", format="audio/mpeg")
+            play_sound_automatic("happy.mp3")
         else:
-            st.audio("disappointing.mp3", format="audio/mpeg")
+            play_sound_automatic("disappointing.mp3")
 
 # --- Performance Level Section ---
 st.markdown("---")
@@ -191,8 +198,7 @@ if performance_assess:
 
         scroll_to("perf_result")
 
-        # Play sound effect based on classification (reverse logic)
         if perf_class in ["Very High", "High"]:
-            st.audio("happy.mp3.mp3", format="audio/mpeg")
+            play_sound_automatic("happy.mp3")
         else:
-            st.audio("disappointing.mp3", format="audio/mpeg")
+            play_sound_automatic("disappointing.mp3")
