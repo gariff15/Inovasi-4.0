@@ -28,13 +28,17 @@ st.markdown("""
         margin-top: 1em;
         box-shadow: 0 2px 8px rgba(79, 139, 249, 0.15);
     }
+    .animation-container {
+        margin-top: 1em;
+        text-align: center;
+    }
     </style>
 """, unsafe_allow_html=True)
 
 st.title("🎯 Stresformance")
 st.markdown("""
 Welcome to **Stresformance**!  
-Answer the questions and click **Assess** to see your results and hear sound effects automatically.
+Answer the questions and click **Assess** to see your results with animations and effects.
 """)
 
 stress_questions = [
@@ -100,20 +104,41 @@ def scroll_to(id_name):
     """
     html(scroll_js, height=0)
 
-def play_sound_automatic(audio_url):
-    audio_html = f"""
-    <audio autoplay>
-        <source src="{audio_url}" type="audio/mpeg" />
-        Your browser does not support the audio element.
-    </audio>
-    """
-    html(audio_html, height=0)
+def show_animation(animation_type):
+    animations = {
+        "stress_high": """
+            <div class="animation-container">
+                <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_1pxqjqps.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+                <h3 style="color:#d32f2f;">Stress Level is High! Stay Strong!</h3>
+            </div>
+        """,
+        "stress_low": """
+            <div class="animation-container">
+                <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_jbrw3hcz.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+                <h3 style="color:#388e3c;">Stress Level is Low! Celebrate your calmness!</h3>
+            </div>
+        """,
+        "perf_high": """
+            <div class="animation-container">
+                <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_touohxv0.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+                <h3 style="color:#1976d2;">Performance is High! Keep up the great work!</h3>
+            </div>
+        """,
+        "perf_low": """
+            <div class="animation-container">
+                <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_4kx2q32n.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+                <h3 style="color:#6d4c41;">Performance is Low! Don't lose hope!</h3>
+            </div>
+        """
+    }
+    html(animations.get(animation_type, ""), height=350)
 
-# Direct download links converted from your Google Drive URLs
-HAPPY_SOUND_URL = "https://drive.google.com/uc?export=download&id=1nKTjeW0TFpFmT5R-caEzhrgCswGroVeU"
-DISAPPOINTING_SOUND_URL = "https://drive.google.com/uc?export=download&id=1yUT3DTbfxinbknPI7wNj2eZqizqYw6d-"
+# Include Lottie player script once
+st.components.v1.html("""
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+""", height=0)
 
-# Stress Level Section
+# --- Stress Level Section ---
 st.markdown("## 😰 Stress Level Questions (1-5)")
 stress_answers = []
 for i, q in enumerate(stress_questions):
@@ -154,12 +179,13 @@ if stress_assess:
 
         scroll_to("stress_result")
 
-        if stress_class in ["Very Low", "Low"]:
-            play_sound_automatic(HAPPY_SOUND_URL)
+        # Show animation based on stress level
+        if stress_class in ["High", "Very High"]:
+            show_animation("stress_high")
         else:
-            play_sound_automatic(DISAPPOINTING_SOUND_URL)
+            show_animation("stress_low")
 
-# Performance Level Section
+# --- Performance Level Section ---
 st.markdown("---")
 st.markdown("## 🚀 Performance Level Questions (6-11)")
 performance_answers = []
@@ -201,8 +227,8 @@ if performance_assess:
 
         scroll_to("perf_result")
 
-        # Reverse logic for performance sounds
+        # Show animation based on performance level
         if perf_class in ["Very High", "High"]:
-            play_sound_automatic(HAPPY_SOUND_URL)
+            show_animation("perf_high")
         else:
-            play_sound_automatic(DISAPPOINTING_SOUND_URL)
+            show_animation("perf_low")
