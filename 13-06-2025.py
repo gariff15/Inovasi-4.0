@@ -145,7 +145,7 @@ if stress_assess:
 
         # Play sound effect based on classification
         if stress_class in ["Very Low", "Low"]:
-            st.audio("happy.mp3", format="audio/mpeg")
+            st.audio("happy.mp3.mp3", format="audio/mpeg")
         else:
             st.audio("disappointing.mp3", format="audio/mpeg")
 
@@ -193,6 +193,6 @@ if performance_assess:
 
         # Play sound effect based on classification (reverse logic)
         if perf_class in ["Very High", "High"]:
-            st.audio("happy.mp3", format="audio/mpeg")
+            st.audio("happy.mp3.mp3", format="audio/mpeg")
         else:
             st.audio("disappointing.mp3", format="audio/mpeg")
