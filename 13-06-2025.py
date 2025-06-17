@@ -204,7 +204,7 @@ if performance_assess:
         # High/Very High performance (mean low) => celebration (confetti)
         # Low/Very Low performance (mean high) => caution message, no confetti
         if perf_class in ["Very High", "High"]:
-            st.markdown("<h3 style='color:#d32f2f; text-shadow: 0 0 10px #ff0000;'>🎉 Outstanding Performance! Keep shining!</h3>", unsafe_allow_html=True)
+            st.markdown("<h3 style='color:#b3ffd9; text-shadow: 0 0 10px #ff0000;'>🎉 Outstanding Performance! Keep shining!</h3>", unsafe_allow_html=True)
             trigger_confetti()
         else:
-            st.markdown("<h3 style='color:#388e3c; text-shadow: 0 0 10px #006400;'>😞 Performance is low. Stay motivated!</h3>", unsafe_allow_html=True)
+            st.markdown("<h3 style='color:#ffb3b3; text-shadow: 0 0 10px #006400;'>😞 Performance is low. Stay motivated!</h3>", unsafe_allow_html=True)
