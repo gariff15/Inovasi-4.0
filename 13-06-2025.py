@@ -104,14 +104,14 @@ def play_sound_automatic(audio_url):
     audio_html = f"""
     <audio autoplay>
         <source src="{audio_url}" type="audio/mpeg" />
-        Your browser does not support the audio element.
+        
     </audio>
     """
     html(audio_html, height=0)
 
 # Google Drive direct links for your sounds
-HAPPY_SOUND_URL = "https://drive.google.com/uc?export=download&id=1nKTjeW0TFpFmT5R-caEzhrgCswGroVeU"
-DISAPPOINTING_SOUND_URL = "https://drive.google.com/uc?export=download&id=1yUT3DTbfxinbknPI7wNj2eZqizqYw6d-"
+HAPPY_SOUND_URL = "https://drive.google.com/file/d/1nKTjeW0TFpFmT5R-caEzhrgCswGroVeU/view?usp=sharing"
+DISAPPOINTING_SOUND_URL = "https://drive.google.com/file/d/1yUT3DTbfxinbknPI7wNj2eZqizqYw6d-/view?usp=sharing"
 
 # Stress Level Section
 st.markdown("## 😰 Stress Level Questions (1-5)")
