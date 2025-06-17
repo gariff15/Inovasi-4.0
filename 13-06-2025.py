@@ -76,7 +76,7 @@ function fireConfetti() {
 
 st.components.v1.html(CONFETTI_JS, height=0)
 
-st.title("🎯 Stresformance - Fascinating Edition")
+st.title("🎯 Stresformance Survey")
 st.markdown("Answer the questions and click **Assess** to see your results with stunning effects!")
 
 stress_questions = [
