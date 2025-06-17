@@ -1,4 +1,5 @@
 import streamlit as st
+import plotly.graph_objects as go
 
 # --- CSS for aesthetics ---
 st.markdown("""
@@ -33,33 +34,25 @@ st.title("🎯 Stresformance")
 st.markdown("""
 Welcome to **Stresformance**!  
 Assess your stress levels and performance with our innovative, interactive tool.  
-Answer the 8 questions below to get personalized feedback.
+Answer the 11 questions below to get personalized feedback.
 """)
 
 # --- Questions and Options ---
 questions = [
-    "1. In the last 1- 4 weeks, I found it hard to wind down.",
-    "2. In the last 1- 4 weeks, I tended to over-react to situations.",
-    "3. In the last 1- 4 weeks, I felt restless.",
-    "4. In the last 1- 4 weeks, I felt easily agitated.",
+    "1. In the last 1-4 weeks, I found it hard to wind down.",
+    "2. In the last 1-4 weeks, I tended to over-react to situations.",
+    "3. In the last 1-4 weeks, I felt restless.",
+    "4. In the last 1-4 weeks, I felt easily agitated.",
     "5. In the last 1-4 weeks, I felt difficult to relax.",
-    "6. During the past 1 - 4 weeks, how often was your performance is lower than most workers at your workplace?",
-    "7. During the past 1 - 4 weeks, how often did you do no work at times when you were supposed to be working?",
-    "8. During the past 1 - 4 weeks, how often did you find yourself not working carefully as you should?",
-    "9. During the past 1 - 4 weeks, how often was the quality of your work lower than it should be?",
-    "10. During the past 1 - 4 weeks, how often do you not fully concentrate on your work?",
-    "11. During the past 1 - 4 weeks, how often did health problems limit the kind or amount of work you could do?"
+    "6. During the past 1-4 weeks, how often was your performance lower than most workers at your workplace?",
+    "7. During the past 1-4 weeks, how often did you do no work at times when you were supposed to be working?",
+    "8. During the past 1-4 weeks, how often did you find yourself not working carefully as you should?",
+    "9. During the past 1-4 weeks, how often was the quality of your work lower than it should be?",
+    "10. During the past 1-4 weeks, how often do you not fully concentrate on your work?",
+    "11. During the past 1-4 weeks, how often did health problems limit the kind or amount of work you could do?"
 ]
 
 options = ["Very Rare", "Rare", "Moderate", "Frequent", "Very Frequent"]
-
-# --- User Input ---
-responses = []
-with st.form("stress_form"):
-    for i, q in enumerate(questions):
-        selected = st.radio(q, options, key=f"q{i+1}", horizontal=True)
-        responses.append(selected)
-    submitted = st.form_submit_button("✨ Finish")
 
 # --- Helper Functions ---
 def option_to_score(option):
@@ -71,36 +64,54 @@ def option_to_score(option):
         "Very Frequent": 5
     }[option]
 
-def classify(mean):
+def classify_stress_level(mean):
     if mean < 1.5:
         return "🟦 Very Low"
-    elif 1.5 <= mean < 2.5:
+    elif 1.5 <= mean < 2:
         return "🟩 Low"
-    elif 2.5 <= mean < 3:
+    elif 2 <= mean < 3:
         return "🟨 Moderate"
-    elif 3 <= mean <= 4:
+    elif 3 <= mean < 4:
         return "🟧 High"
-    else:  # mean > 4
+    else:  # mean >= 4
         return "🟥 Very High"
+
+def classify_performance_level(mean):
+    if mean < 1.5:
+        return "🟩 Very High"
+    elif 1.5 <= mean < 2:
+        return "🟨 High"
+    elif 2 <= mean < 3:
+        return "🟧 Moderate"
+    elif 3 <= mean < 4:
+        return "🟥 Low"
+    else:  # mean >= 4
+        return "⬛ Very Low"
+
+# --- User Input ---
+responses = []
+with st.form("stress_form"):
+    for i, q in enumerate(questions):
+        selected = st.radio(q, options, key=f"q{i+1}", horizontal=True)
+        responses.append(selected)
+    submitted = st.form_submit_button("✨ Finish")
 
 # --- Results ---
 if submitted:
     scores = [option_to_score(ans) for ans in responses]
     mean_1_5 = sum(scores[:5]) / 5
-    mean_6_8 = sum(scores[5:]) / 3
+    mean_6_11 = sum(scores[5:]) / 6
 
-    result_1_5 = classify(mean_1_5)
-    result_6_8 = classify(mean_6_8)
+    result_1_5 = classify_stress_level(mean_1_5)
+    result_6_11 = classify_performance_level(mean_6_11)
 
     st.markdown('<div class="result-box">', unsafe_allow_html=True)
     st.subheader("🔎 Results")
     st.write(f"**Stress Level (Q1–Q5):** {result_1_5}  \nMean score: {mean_1_5:.2f}")
-    st.write(f"**Performance & Well-being (Q6–Q8):** {result_6_8}  \nMean score: {mean_6_8:.2f}")
+    st.write(f"**Performance Level (Q6–Q11):** {result_6_11}  \nMean score: {mean_6_11:.2f}")
 
-    # Add a gauge chart for extra flair
-    import plotly.graph_objects as go
-
-    fig = go.Figure(go.Indicator(
+    # Gauge chart for Stress Level
+    fig_stress = go.Figure(go.Indicator(
         mode = "gauge+number",
         value = mean_1_5,
         domain = {'x': [0, 1], 'y': [0, 1]},
@@ -110,14 +121,34 @@ if submitted:
             'bar': {'color': "royalblue"},
             'steps' : [
                 {'range': [1, 1.5], 'color': "#cce5ff"},
-                {'range': [1.5, 2.5], 'color': "#b3ffd9"},
-                {'range': [2.5, 3], 'color': "#fffcb3"},
+                {'range': [1.5, 2], 'color': "#b3ffd9"},
+                {'range': [2, 3], 'color': "#fffcb3"},
                 {'range': [3, 4], 'color': "#ffd6b3"},
                 {'range': [4, 5], 'color': "#ffb3b3"}
             ]
         }
     ))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig_stress, use_container_width=True)
+
+    # Gauge chart for Performance Level
+    fig_perf = go.Figure(go.Indicator(
+        mode = "gauge+number",
+        value = mean_6_11,
+        domain = {'x': [0, 1], 'y': [0, 1]},
+        title = {'text': "Performance Level"},
+        gauge = {
+            'axis': {'range': [1, 5]},
+            'bar': {'color': "green"},
+            'steps' : [
+                {'range': [1, 1.5], 'color': "#b3ffd9"},
+                {'range': [1.5, 2], 'color': "#cce5ff"},
+                {'range': [2, 3], 'color': "#fffcb3"},
+                {'range': [3, 4], 'color': "#ffd6b3"},
+                {'range': [4, 5], 'color': "#ffb3b3"}
+            ]
+        }
+    ))
+    st.plotly_chart(fig_perf, use_container_width=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
     st.balloons()
