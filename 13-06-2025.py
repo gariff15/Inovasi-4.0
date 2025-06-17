@@ -38,12 +38,15 @@ Answer the 11 questions below to get personalized feedback.
 """)
 
 # --- Questions and Options ---
-questions = [
+stress_questions = [
     "1. In the last 1-4 weeks, I found it hard to wind down.",
     "2. In the last 1-4 weeks, I tended to over-react to situations.",
     "3. In the last 1-4 weeks, I felt restless.",
     "4. In the last 1-4 weeks, I felt easily agitated.",
-    "5. In the last 1-4 weeks, I felt difficult to relax.",
+    "5. In the last 1-4 weeks, I felt difficult to relax."
+]
+
+performance_questions = [
     "6. During the past 1-4 weeks, how often was your performance lower than most workers at your workplace?",
     "7. During the past 1-4 weeks, how often did you do no work at times when you were supposed to be working?",
     "8. During the past 1-4 weeks, how often did you find yourself not working carefully as you should?",
@@ -91,8 +94,14 @@ def classify_performance_level(mean):
 # --- User Input ---
 responses = []
 with st.form("stress_form"):
-    for i, q in enumerate(questions):
+    st.markdown("## 😰 Stress Level Questions (1-5)")
+    for i, q in enumerate(stress_questions):
         selected = st.radio(q, options, key=f"q{i+1}", horizontal=True)
+        responses.append(selected)
+    st.markdown("---")
+    st.markdown("## 🚀 Performance Level Questions (6-11)")
+    for i, q in enumerate(performance_questions):
+        selected = st.radio(q, options, key=f"q{i+6}", horizontal=True)
         responses.append(selected)
     submitted = st.form_submit_button("✨ Finish")
 
@@ -107,8 +116,8 @@ if submitted:
 
     st.markdown('<div class="result-box">', unsafe_allow_html=True)
     st.subheader("🔎 Results")
-    st.write(f"**Stress Level (Q1–Q5):** {result_1_5}  \nMean score: {mean_1_5:.2f}")
-    st.write(f"**Performance Level (Q6–Q11):** {result_6_11}  \nMean score: {mean_6_11:.2f}")
+    st.write(f"**😰 Stress Level (Q1–Q5):** {result_1_5}  \nMean score: {mean_1_5:.2f}")
+    st.write(f"**🚀 Performance Level (Q6–Q11):** {result_6_11}  \nMean score: {mean_6_11:.2f}")
 
     # Gauge chart for Stress Level
     fig_stress = go.Figure(go.Indicator(
