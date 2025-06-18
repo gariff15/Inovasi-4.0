@@ -103,7 +103,7 @@ def setup_page():
     }}
     .stButton button {{
         background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: white;
+        color: black;
         font-weight: 600;
         border: none;
         padding: 0.75rem 1.5rem;
@@ -355,7 +355,7 @@ def show_results():
     <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
         <button style="
             background: linear-gradient(135deg, #8A2BE2, #4B0082);
-            color: white;
+            color: black;
             border: none;
             padding: 0.75rem 1.5rem;
             border-radius: 12px;
@@ -391,8 +391,8 @@ def plot_gauge(value: float, range: List[float], title: str, color: str):
             'axis': {
                 'range': range,
                 'tickwidth': 1,
-                'tickcolor': 'white',
-                'tickfont': {'color': 'white'}
+                'tickcolor': 'black',
+                'tickfont': {'color': 'black'}
             },
             'bar': {'color': color},
             'bgcolor': 'rgba(10, 10, 30, 0.3)',
@@ -415,7 +415,7 @@ def plot_gauge(value: float, range: List[float], title: str, color: str):
         margin=dict(l=20, r=20, t=50, b=20),
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
-        font={'family': "Poppins", 'color': "white"}
+        font={'family': "Poppins", 'color': "black"}
     )
     
     st.plotly_chart(fig, use_container_width=True)
