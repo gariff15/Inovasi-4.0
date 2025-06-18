@@ -157,6 +157,104 @@ def classify_performance_level(mean: float) -> str:
     elif mean < 4: return "⚠️ Low - Needs Support"
     return "😢 Very Low - Very Unproductive"
 
+#Gauge
+def plot_dynamic_gauge(value: float, title: str, is_stress: bool):
+    """Create gauge with dynamic colors and glowing effects"""
+    # Determine colors and effects based on value and meter type
+    if is_stress:
+        if value >= 4.5:  # Very High Stress
+            number_color = "#FF0000"  # Bright red
+            glow = "0 0 10px #FF0000, 0 0 20px #FF0000"
+            bar_color = "#FF0000"
+        elif value >= 4:  # High Stress
+            number_color = "#FF4500"  # Orange-red
+            glow = "0 0 5px #FF4500"
+            bar_color = "#FF4500"
+        elif value >= 3:  # Moderate Stress
+            number_color = "#FFD700"  # Gold
+            glow = "none"
+            bar_color = "#FFD700"
+        elif value >= 2:  # Low Stress
+            number_color = "#90EE90"  # Light green
+            glow = "none"
+            bar_color = "#90EE90"
+        else:  # Very Low Stress
+            number_color = "#32CD32"  # Lime green
+            glow = "0 0 10px #32CD32, 0 0 20px #32CD32"
+            bar_color = "#32CD32"
+    else:  # Performance meter (opposite colors)
+        if value >= 4.5:  # Very High Performance
+            number_color = "#32CD32"  # Lime green
+            glow = "0 0 10px #32CD32, 0 0 20px #32CD32"
+            bar_color = "#32CD32"
+        elif value >= 4:  # High Performance
+            number_color = "#90EE90"  # Light green
+            glow = "none"
+            bar_color = "#90EE90"
+        elif value >= 3:  # Moderate Performance
+            number_color = "#FFD700"  # Gold
+            glow = "none"
+            bar_color = "#FFD700"
+        elif value >= 2:  # Low Performance
+            number_color = "#FF4500"  # Orange-red
+            glow = "none"
+            bar_color = "#FF4500"
+        else:  # Very Low Performance
+            number_color = "#FF0000"  # Bright red
+            glow = "0 0 10px #FF0000, 0 0 20px #FF0000"
+            bar_color = "#FF0000"
+
+    # Create custom number display with glow effect
+    st.markdown(
+        f'<div style="text-align: center; font-size: 2.5rem; font-weight: bold; '
+        f'color: {number_color}; text-shadow: {glow}; margin: 10px 0;">'
+        f'{value:.1f}</div>',
+        unsafe_allow_html=True
+    )
+
+    # Create gauge figure
+    fig = go.Figure(go.Indicator(
+        mode="gauge",
+        value=value,
+        domain={'x': [0, 1], 'y': [0, 1]},
+        title={
+            'text': title,
+            'font': {'size': 18, 'color': 'black', 'family': "Poppins"}
+        },
+        gauge={
+            'axis': {
+                'range': [1, 5],
+                'tickvals': [1, 2, 3, 4, 5],
+                'tickcolor': 'black',
+                'tickfont': {'color': 'black', 'size': 12}
+            },
+            'bar': {'color': bar_color},
+            'bgcolor': 'rgba(255,255,255,0.8)',
+            'borderwidth': 1,
+            'bordercolor': "gray",
+            'steps': [
+                {'range': [1, 2], 'color': '#A3E4D7' if is_stress else '#F5B7B1'},
+                {'range': [2, 3], 'color': '#FAD7A0' if is_stress else '#FAD7A0'},
+                {'range': [3, 4], 'color': '#F5B7B1' if is_stress else '#A3E4D7'},
+                {'range': [4, 5], 'color': '#8B0000' if is_stress else '#27AE60'}
+            ],
+            'threshold': {
+                'line': {'color': bar_color, 'width': 4},
+                'thickness': 0.75,
+                'value': value
+            }
+        }
+    ))
+
+    fig.update_layout(
+        margin=dict(l=20, r=20, t=50, b=20),
+        paper_bgcolor='rgba(255,255,255,0.9)',
+        font={'family': "Poppins", 'color': "black"}
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
+
+
 # ========== PAGE COMPONENTS ==========
 def show_header():
     """Premium app header with animation"""
