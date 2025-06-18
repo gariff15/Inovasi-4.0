@@ -155,7 +155,7 @@ def classify_performance_level(mean: float) -> str:
     elif mean < 2: return "🏆 High - Strong Output"
     elif mean < 3: return "🔄 Moderate - Room for Improvement"
     elif mean < 4: return "⚠️ Low - Needs Support"
-    return "🛑 Very Low - Critical Impact"
+    return "😢 Very Low - Very Unproductive"
 
 # ========== PAGE COMPONENTS ==========
 def show_header():
@@ -169,7 +169,7 @@ def show_header():
             style="width: 120px; height: 120px; margin: 0 auto;"
             autoplay>
         </lottie-player>
-        <h1 style="margin-top: -1rem;">Mind & Performance Pro</h1>
+        <h1 style="margin-top: -1rem;">STRESFORMANCE TRACKER</h1>
     </div>
     """, unsafe_allow_html=True)
 
@@ -185,7 +185,7 @@ def stress_assessment():
             style="width: 40px; height: 40px;"
             autoplay>
         </lottie-player>
-        Stress Assessment
+        Your Stress Measure
     </h2>
     <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
         Rate how often you've experienced these feelings in the past month:
@@ -220,7 +220,7 @@ def performance_assessment():
             style="width: 40px; height: 40px;"
             autoplay>
         </lottie-player>
-        Performance Assessment
+        Your Performance Measure
     </h2>
     <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
         Rate how often these performance issues occurred in the past month:
