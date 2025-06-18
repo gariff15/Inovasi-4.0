@@ -58,11 +58,11 @@ def setup_page():
     </script>
     <style>
     :root {{
-        --primary: #8A2BE2;
-        --secondary: #00CED1;
-        --accent: #FFD700;
-        --text: #FFFFFF;
-        --bg: #0A0A1A;
+        --primary: #8A2BE2;  /* Vibrant purple */
+        --secondary: #00CED1;  /* Teal */
+        --accent: #FFD700;  /* Gold */
+        --text: #2C3E50;  /* Darker text for better readability */
+        --bg: #ECF0F1;  /* Light background for comfort */
     }}
     </style>
     """, height=0)
@@ -169,12 +169,12 @@ def show_header():
             style="width: 120px; height: 120px; margin: 0 auto;"
             autoplay>
         </lottie-player>
-        <h1 style="margin-top: -1rem;">Mind & Performance Pro</h1>
+        <h1 style="margin-top: -1rem;">STRESFORMANCE TRACKER</h1>
     </div>
     """, unsafe_allow_html=True)
 
 def stress_assessment():
-    """Premium stress assessment page"""
+    """Premium Your Stress Measure page"""
     show_header()
     st.markdown("""
     <h2 style="display: flex; align-items: center; gap: 0.5rem;">
@@ -185,7 +185,7 @@ def stress_assessment():
             style="width: 40px; height: 40px;"
             autoplay>
         </lottie-player>
-        Stress Assessment
+        Your Stress Measure
     </h2>
     <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
         Rate how often you've experienced these feelings in the past month:
@@ -391,55 +391,10 @@ def plot_gauge(value: float, range: List[float], title: str, color: str):
             'axis': {
                 'range': range,
                 'tickwidth': 1,
-                'tickcolor': 'white',
-                'tickfont': {'color': 'white'}
+                'tickcolor': 'black',
+                'tickfont': {'color': 'black'}
             },
             'bar': {'color': color},
             'bgcolor': 'rgba(10, 10, 30, 0.3)',
             'borderwidth': 2,
-            'bordercolor': 'rgba(255, 255, 255, 0.2)',
-            'steps': [
-                {'range': [1, 2.5], 'color': 'rgba(0, 206, 209, 0.5)'},
-                {'range': [2.5, 3.5], 'color': 'rgba(255, 215, 0, 0.5)'},
-                {'range': [3.5, 5], 'color': 'rgba(138, 43, 226, 0.5)'}
-            ],
-            'threshold': {
-                'line': {'color': color, 'width': 4},
-                'thickness': 0.75,
-                'value': value
-            }
-        }
-    ))
-    
-    fig.update_layout(
-        margin=dict(l=20, r=20, t=50, b=20),
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        font={'family': "Poppins", 'color': "white"}
-    )
-    
-    st.plotly_chart(fig, use_container_width=True)
-
-# ========== MAIN APP ==========
-def main():
-    """Premium application flow"""
-    setup_page()
-    
-    # Initialize session state
-    if "page" not in st.session_state:
-        st.session_state.page = 1
-    if "stress_answers" not in st.session_state:
-        st.session_state.stress_answers = [None] * len(STRESS_QUESTIONS)
-    if "perf_answers" not in st.session_state:
-        st.session_state.perf_answers = [None] * len(PERFORMANCE_QUESTIONS)
-    
-    # Page routing
-    if st.session_state.page == 1:
-        stress_assessment()
-    elif st.session_state.page == 2:
-        performance_assessment()
-    elif st.session_state.page == 3:
-        show_results()
-
-if __name__ == "__main__":
-    main()
+            'bordercolor': 'rgba(255
