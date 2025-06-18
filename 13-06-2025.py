@@ -152,7 +152,7 @@ if st.session_state.page == 1:
             st.warning("Please answer all stress questions before proceeding.")
         else:
             st.session_state.page = 2
-            st.experimental_rerun()
+            st.rerun()
 
 # Page 2: Performance Questions
 elif st.session_state.page == 2:
