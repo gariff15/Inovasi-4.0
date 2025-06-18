@@ -153,7 +153,7 @@ elif st.session_state.page == 3:
     perf_class = classify_performance_level(mean_perf)
 
     # Trigger confetti only when results are displayed
-    fireConfetti()
+    trigger_confetti()
 
     # Stress Result
     st.header("Stress Level Result")
