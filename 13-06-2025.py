@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.graph_objects as go
 from streamlit.components.v1 import html
 
-# --- Lottie and Confetti JS ---
+# Inject confetti JS and Lottie player script once
 st.components.v1.html("""
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 <script>
@@ -22,62 +22,62 @@ function fireConfetti() {
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 """, height=0)
 
-# --- CSS ---
+# CSS styling
 st.markdown("""
-    <style>
-    body {
-        background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-        color: #222;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .result-box {
-        background: rgba(255,255,255,0.95);
-        border-radius: 16px;
-        padding: 1.5em 1em 1em 1em;
-        margin-top: 1em;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        text-align: center;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        transition: all 0.5s ease;
-    }
-    .giftbox-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 60px;
-        margin-bottom: 2em;
-        margin-top: 1em;
-    }
-    .giftbox {
-        background: rgba(255,255,255,0.85);
-        border-radius: 14px;
-        padding: 1em 1em 2em 1em;
-        box-shadow: 0 4px 18px rgba(0,0,0,0.10);
-        text-align: center;
-        width: 320px;
-        min-height: 380px;
-        position: relative;
-    }
-    .giftbox h3 {
-        margin-bottom: 0.3em;
-    }
-    .open-animation {
-        margin-top: -35px;
-        margin-bottom: 0.5em;
-        text-align: center;
-    }
-    .slot-label {
-        font-size: 1.1em;
-        font-weight: bold;
-        color: #4f8bf9;
-        margin-bottom: 0.2em;
-    }
-    </style>
+<style>
+body {
+    background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+    color: #222;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.result-box {
+    background: rgba(255,255,255,0.95);
+    border-radius: 16px;
+    padding: 1.5em 1em 1em 1em;
+    margin-top: 1em;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    text-align: center;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 0.5s ease;
+}
+.giftbox-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 60px;
+    margin-bottom: 2em;
+    margin-top: 1em;
+}
+.giftbox {
+    background: rgba(255,255,255,0.85);
+    border-radius: 14px;
+    padding: 1em 1em 2em 1em;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+    text-align: center;
+    width: 320px;
+    min-height: 380px;
+    position: relative;
+}
+.giftbox h3 {
+    margin-bottom: 0.3em;
+}
+.open-animation {
+    margin-top: -35px;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+.slot-label {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #4f8bf9;
+    margin-bottom: 0.2em;
+}
+</style>
 """, unsafe_allow_html=True)
 
-# --- Questions ---
+# Questions
 stress_questions = [
     "1. In the last 1-4 weeks, I found it hard to wind down.",
     "2. In the last 1-4 weeks, I tended to over-react to situations.",
@@ -112,10 +112,21 @@ def classify_performance_level(mean):
     elif mean < 4: return "Low"
     else: return "Very Low"
 
+def scroll_to(id_name):
+    js = f"""
+    <script>
+    const el = window.parent.document.getElementById('{id_name}');
+    if(el) {{
+        el.scrollIntoView({{behavior: 'smooth'}});
+    }}
+    </script>
+    """
+    html(js, height=0)
+
 def trigger_confetti():
     html("<script>fireConfetti();</script>", height=0)
 
-# --- Page Navigation State ---
+# Initialize session state
 if "page" not in st.session_state:
     st.session_state.page = 1
 if "stress_answers" not in st.session_state:
@@ -127,7 +138,7 @@ if "stress_opened" not in st.session_state:
 if "perf_opened" not in st.session_state:
     st.session_state.perf_opened = False
 
-# --- PAGE 1: Stress Questions ---
+# Page 1: Stress Questions
 if st.session_state.page == 1:
     st.title("Page 1: Stress Level Assessment")
     st.markdown("#### Please answer all stress questions below:")
@@ -143,7 +154,7 @@ if st.session_state.page == 1:
             st.session_state.page = 2
             st.experimental_rerun()
 
-# --- PAGE 2: Performance Questions ---
+# Page 2: Performance Questions
 elif st.session_state.page == 2:
     st.title("Page 2: Performance Level Assessment")
     st.markdown("#### Please answer all performance questions below:")
@@ -165,30 +176,30 @@ elif st.session_state.page == 2:
                 st.session_state.page = 3
                 st.experimental_rerun()
 
-# --- PAGE 3: Results with Gift Box/Slot Machine ---
+# Page 3: Results with Gift Boxes
 elif st.session_state.page == 3:
     st.title("Page 3: 🎁 Your Results!")
     st.markdown("#### Click each gift box to reveal your result!")
 
-    # Calculate stress result
+    # Calculate results
     stress_scores = [option_to_score(a) for a in st.session_state.stress_answers]
     mean_stress = sum(stress_scores) / len(stress_scores)
     stress_class = classify_stress_level(mean_stress)
 
-    # Calculate performance result
     perf_scores = [option_to_score(a) for a in st.session_state.performance_answers]
     mean_perf = sum(perf_scores) / len(perf_scores)
     perf_class = classify_performance_level(mean_perf)
 
-    # Gift box/slot machine Lottie
-    giftbox_lottie = "https://lottie.host/5b8b2a3f-95c5-4a0b-8e7f-3f5d4b3e5d6e/1G5V6K.json"
-    slot_lottie = "https://lottie.host/5c5c0e3c-4e8d-4c9b-8a5e-9e2a9a3e8f5c/2H7L3J.json"
-    openbox_lottie = "https://lottie.host/8e7f3f5d-4b3e-5b8b-2a3f-95c54a0b8e7f/3K9Q4T.json"
-    sparkle_lottie = "https://lottie.host/3e8f5c5c-0e3c-4e8d-4c9b-8a5e-9e2a9a3e8f5c/4L8M5N.json"
+    # Lottie URLs
+    giftbox_lottie = "https://assets9.lottiefiles.com/packages/lf20_5ngs2ksb.json"  # gift box closed
+    openbox_lottie = "https://assets9.lottiefiles.com/packages/lf20_2ksqv5tq.json"  # gift box opening
+    sparkle_lottie = "https://assets9.lottiefiles.com/packages/lf20_0yfsb3a1.json"  # sparkle effect
 
     st.markdown('<div class="giftbox-container">', unsafe_allow_html=True)
-    # --- Stress Gift Box ---
-    with st.container():
+
+    # Stress Gift Box
+    col1, col2 = st.columns(2)
+    with col1:
         st.markdown('<div class="giftbox">', unsafe_allow_html=True)
         st.markdown('<div class="slot-label">Stress Level</div>', unsafe_allow_html=True)
         if not st.session_state.stress_opened:
@@ -203,9 +214,9 @@ elif st.session_state.page == 3:
                 st.experimental_rerun()
         else:
             html(f"""
-            <div class="open-animation">
+            <div class="open-animation" style="position: relative;">
                 <lottie-player src="{openbox_lottie}" background="transparent" speed="1" style="width: 180px; height: 180px;" autoplay></lottie-player>
-                <lottie-player src="{sparkle_lottie}" background="transparent" speed="1" style="width: 80px; height: 80px;position:absolute;top:0;left:0;" autoplay></lottie-player>
+                <lottie-player src="{sparkle_lottie}" background="transparent" speed="1" style="width: 80px; height: 80px; position: absolute; top: 10px; left: 50%; transform: translateX(-50%);" autoplay></lottie-player>
             </div>
             """, height=180)
             st.subheader(f"Stress Level: {stress_class}")
@@ -230,25 +241,25 @@ elif st.session_state.page == 3:
             st.plotly_chart(fig, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # --- Performance Slot Machine ---
-    with st.container():
+    # Performance Gift Box
+    with col2:
         st.markdown('<div class="giftbox">', unsafe_allow_html=True)
         st.markdown('<div class="slot-label">Performance Level</div>', unsafe_allow_html=True)
         if not st.session_state.perf_opened:
             html(f"""
             <div class="open-animation">
-                <lottie-player src="{slot_lottie}" background="transparent" speed="1" style="width: 180px; height: 180px;" loop autoplay></lottie-player>
+                <lottie-player src="{giftbox_lottie}" background="transparent" speed="1" style="width: 180px; height: 180px;" loop autoplay></lottie-player>
             </div>
             """, height=190)
-            if st.button("🎰 Assess Performance", key="open_perf"):
+            if st.button("🎁 Assess Performance", key="open_perf"):
                 st.session_state.perf_opened = True
                 trigger_confetti()
                 st.experimental_rerun()
         else:
             html(f"""
-            <div class="open-animation">
+            <div class="open-animation" style="position: relative;">
                 <lottie-player src="{openbox_lottie}" background="transparent" speed="1" style="width: 180px; height: 180px;" autoplay></lottie-player>
-                <lottie-player src="{sparkle_lottie}" background="transparent" speed="1" style="width: 80px; height: 80px;position:absolute;top:0;left:0;" autoplay></lottie-player>
+                <lottie-player src="{sparkle_lottie}" background="transparent" speed="1" style="width: 80px; height: 80px; position: absolute; top: 10px; left: 50%; transform: translateX(-50%);" autoplay></lottie-player>
             </div>
             """, height=180)
             st.subheader(f"Performance Level: {perf_class}")
@@ -272,12 +283,13 @@ elif st.session_state.page == 3:
             ))
             st.plotly_chart(fig, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
+
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Navigation
+    # Navigation buttons
     col1, col2 = st.columns([1,1])
     with col1:
-        if st.button("⬅️ Back", key="back2"):
+        if st.button("⬅️ Back to Performance Questions", key="back2"):
             st.session_state.page = 2
             st.session_state.stress_opened = False
             st.session_state.perf_opened = False
@@ -285,6 +297,7 @@ elif st.session_state.page == 3:
     with col2:
         if st.button("🔄 Restart", key="restart"):
             for k in ["stress_answers", "performance_answers", "stress_opened", "perf_opened"]:
-                if k in st.session_state: del st.session_state[k]
+                if k in st.session_state:
+                    del st.session_state[k]
             st.session_state.page = 1
             st.experimental_rerun()
