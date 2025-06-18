@@ -2,7 +2,6 @@ import streamlit as st
 import plotly.graph_objects as go
 from streamlit.components.v1 import html
 from typing import List, Dict, Optional
-import colorsys
 
 # ========== CONSTANTS ==========
 STRESS_QUESTIONS = [
@@ -31,31 +30,109 @@ OPTION_SCORES = {
     "🔥 Very Frequent": 5
 }
 
-COLOR_THEME = {
-    "dark_bg": "#0A0A1A",
-    "primary": "#8A2BE2",  # Vibrant purple
-    "secondary": "#00CED1",  # Teal
-    "accent": "#FFD700",  # Gold
-    "text": "#000000",  # Black for maximum contrast
-    "success": "#2ECC71",  # Emerald green
-    "warning": "#F1C40F",  # Yellow
-    "danger": "#E74C3C",  # Red
-    "info": "#3498DB"  # Ocean blue
-}
+# ========== SETUP ==========
+def setup_page():
+    """Configure premium page settings"""
+    st.set_page_config(
+        page_title="STRESFORMANCE TRACKER",
+        page_icon="🧠💼",
+        layout="centered",
+        initial_sidebar_state="collapsed"
+    )
+    
+    # Inject premium animations and effects
+    html(f"""
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script>
+    function fireConfetti() {{
+        confetti({{
+            particleCount: 200,
+            spread: 90,
+            origin: {{ y: 0.6 }},
+            colors: ['#8A2BE2', '#00CED1', '#FFD700', '#FF6347'],
+            shapes: ['circle', 'square', 'star']
+        }});
+    }}
+    </script>
+    <style>
+    :root {{
+        --primary: #8A2BE2;
+        --secondary: #00CED1;
+        --accent: #FFD700;
+        --text: #FFFFFF;
+        --bg: #0A0A1A;
+    }}
+    </style>
+    """, height=0)
 
-# ========== UTILITIES ==========
-def get_color_for_value(value: float) -> str:
-    """Returns dynamic color from green to red based on score"""
-    if value < 1.5: return COLOR_THEME['success']  # Bright green
-    elif value < 2.5: return COLOR_THEME['info']  # Ocean blue
-    elif value < 3.5: return COLOR_THEME['warning']  # Yellow
-    elif value < 4: return COLOR_THEME['danger']  # Red
-    else: return "#7D3C98"  # Deep purple
+    # Premium CSS styling
+    st.markdown(f"""
+    <style>
+    body, .stApp {{
+        font-family: 'Poppins', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        background-image: radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.1) 0%, rgba(0, 206, 209, 0.05) 90%);
+    }}
+    h1 {{
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 2.5rem;
+        text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+    }}
+    h2 {{
+        color: var(--secondary);
+        font-weight: 600;
+        font-size: 1.8rem;
+        text-shadow: 0 0 8px rgba(0, 206, 209, 0.5);
+        margin-top: 1.5rem;
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 0.5rem;
+    }}
+    .stRadio > div {{
+        flex-direction: row;
+        gap: 1.5rem;
+    }}
+    .stRadio > label {{
+        font-size: 1.1rem;
+        color: var(--text) !important;
+    }}
+    .stButton button {{
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        font-weight: 600;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        transition: all 0.3s ease;
+    }}
+    .stButton button:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(138, 43, 226, 0.6);
+    }}
+    .stMarkdown p {{
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: var(--text) !important;
+    }}
+    .stMetric {{
+        background: rgba(10, 10, 30, 0.7);
+        border-radius: 16px;
+        padding: 1rem;
+        border-left: 4px solid var(--accent);
+    }}
+    .stProgress > div > div > div {{
+        background: linear-gradient(90deg, var(--primary), var(--secondary)) !important;
+    }}
+    </style>
+    """, unsafe_allow_html=True)
 
-def glow_effect(color: str, intensity: int = 3) -> str:
-    """Creates CSS glow effect around text"""
-    return f"text-shadow: 0 0 {intensity}px {color}, 0 0 {intensity*2}px {color};"
-
+# ========== CORE FUNCTIONS ==========
 def trigger_confetti():
     """Triggers premium confetti animation"""
     html("<script>fireConfetti();</script>", height=0)
@@ -80,163 +157,6 @@ def classify_performance_level(mean: float) -> str:
     elif mean < 4: return "⚠️ Low - Needs Support"
     return "🛑 Very Low - Critical Impact"
 
-# ========== PAGE SETUP ==========
-def setup_page():
-    """Configure premium page settings"""
-    st.set_page_config(
-        page_title="Mind & Performance Pro",
-        page_icon="🧠💼",
-        layout="centered",
-        initial_sidebar_state="collapsed"
-    )
-    
-    # Inject modern fonts and animations
-    html(f"""
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script>
-    function fireConfetti() {{
-        confetti({{
-            particleCount: 150,
-            spread: 70,
-            origin: {{ y: 0.6 }},
-            colors: ['{COLOR_THEME['primary']}', '{COLOR_THEME['secondary']}', '{COLOR_THEME['accent']}']
-        }});
-    }}
-    </script>
-    <style>
-    :root {{
-        --bg: {COLOR_THEME['dark_bg']};
-        --text: {COLOR_THEME['text']};
-        --danger: {COLOR_THEME['danger']};
-        --warning: {COLOR_THEME['warning']};
-        --info: {COLOR_THEME['info']};
-        --success: {COLOR_THEME['success']};
-        --primary: {COLOR_THEME['primary']};
-        --secondary: {COLOR_THEME['secondary']};
-        --accent: {COLOR_THEME['accent']};
-    }}
-    </style>
-    """, height=0)
-
-    # Premium CSS with glow effects
-    st.markdown(f"""
-    <style>
-    body, .stApp {{
-        font-family: 'Poppins', sans-serif;
-        background: var(--bg);
-        color: white;
-        background-image: radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.1) 0%, rgba(0, 206, 209, 0.05) 90%);
-    }}
-    h1 {{
-        color: var(--primary);
-        font-weight: 900;
-        font-size: 2.5rem;
-        {glow_effect(COLOR_THEME['primary'], 2)};
-        margin-bottom: 0.5rem;
-    }}
-    h2 {{
-        color: var(--secondary);
-        font-weight: 700;
-        font-size: 1.8rem;
-        {glow_effect(COLOR_THEME['secondary'], 2)};
-        margin-top: 1.5rem;
-        border-bottom: 2px solid var(--accent);
-        padding-bottom: 0.5rem;
-    }}
-    .stRadio > div {{
-        flex-direction: row;
-        gap: 1.5rem;
-    }}
-    .stRadio > label {{
-        font-size: 1.1rem;
-        color: white !important;
-    }}
-    .stButton button {{
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: white;
-        font-weight: 600;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
-        transition: all 0.3s ease;
-    }}
-    .stButton button:hover {{
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(138, 43, 226, 0.6);
-    }}
-    .stMarkdown p {{
-        font-size: 1.1rem;
-        line-height: 1.6;
-        color: white !important;
-    }}
-    .metric-value {{
-        font-size: 2.5rem !important;
-        font-weight: 900 !important;
-        text-align: center;
-        margin: 0.5rem 0 !important;
-    }}
-    </style>
-    """, unsafe_allow_html=True)
-
-# ========== GAUGE COMPONENT ==========
-def plot_dynamic_gauge(value: float, title: str):
-    """Creates ultra-readable gauge with dynamic colors"""
-    number_color = get_color_for_value(value)
-    
-    fig = go.Figure(go.Indicator(
-        mode="gauge+number",
-        value=value,
-        domain={'x': [0, 1], 'y': [0, 1]},
-        title={
-            'text': title,
-            'font': {
-                'size': 18,
-                'color': 'black',  # Pure black for maximum contrast
-                'family': "Poppins, sans-serif"
-            }
-        },
-        gauge={
-            'axis': {
-                'range': [1, 5],
-                'tickvals': [1, 2, 3, 4, 5],
-                'tickcolor': 'black',
-                'tickfont': {'color': 'black', 'size': 14, 'family': "Poppins"},
-                'linecolor': 'black'
-            },
-            'bar': {'color': number_color},
-            'bgcolor': 'rgba(255,255,255,0.8)',
-            'borderwidth': 2,
-            'bordercolor': "black",
-            'steps': [
-                {'range': [1, 1.5], 'color': COLOR_THEME['success']},
-                {'range': [1.5, 2.5], 'color': COLOR_THEME['info']},
-                {'range': [2.5, 3.5], 'color': COLOR_THEME['warning']},
-                {'range': [3.5, 5], 'color': COLOR_THEME['danger']}
-            ],
-            'threshold': {
-                'line': {'color': number_color, 'width': 4},
-                'thickness': 0.75,
-                'value': value
-            }
-        }
-    ))
-    
-    fig.update_layout(
-        margin=dict(l=20, r=20, t=60, b=20),
-        paper_bgcolor='rgba(255,255,255,0.9)',
-        font={'family': "Poppins", 'color': "black"}
-    )
-    
-    # Display the glowing number
-    st.markdown(
-        f'<div class="metric-value" style="{glow_effect(number_color, 4)}; color: {number_color}">{value:.2f}</div>',
-        unsafe_allow_html=True
-    )
-    st.plotly_chart(fig, use_container_width=True)
-
 # ========== PAGE COMPONENTS ==========
 def show_header():
     """Premium app header with animation"""
@@ -254,7 +174,7 @@ def show_header():
     """, unsafe_allow_html=True)
 
 def stress_assessment():
-    """Render the stress assessment page"""
+    """Premium stress assessment page"""
     show_header()
     st.markdown("""
     <h2 style="display: flex; align-items: center; gap: 0.5rem;">
@@ -289,7 +209,7 @@ def stress_assessment():
             st.rerun()
 
 def performance_assessment():
-    """Render the performance assessment page"""
+    """Premium performance assessment page"""
     show_header()
     st.markdown("""
     <h2 style="display: flex; align-items: center; gap: 0.5rem;">
@@ -378,7 +298,7 @@ def show_results():
             <p style="color: #00CED1; font-style: italic;">{stress_class.split(' - ')[1]}</p>
         </div>
         """, unsafe_allow_html=True)
-        plot_dynamic_gauge(stress_mean, "🧠 Stress Meter")
+        plot_gauge(stress_mean, [1, 5], "🧠 Stress Meter", "#8A2BE2")
     
     with col2:
         st.markdown(f"""
@@ -400,7 +320,7 @@ def show_results():
             <p style="color: #8A2BE2; font-style: italic;">{perf_class.split(' - ')[1]}</p>
         </div>
         """, unsafe_allow_html=True)
-        plot_dynamic_gauge(perf_mean, "💼 Performance Meter")
+        plot_gauge(perf_mean, [1, 5], "💼 Performance Meter", "#00CED1")
     
     # Recommendations section
     st.markdown("""
@@ -456,6 +376,49 @@ def show_results():
                   st.rerun()
               ),
               type="primary")
+
+def plot_gauge(value: float, range: List[float], title: str, color: str):
+    """Create premium gauge chart with animations"""
+    fig = go.Figure(go.Indicator(
+        mode="gauge+number+delta",
+        value=value,
+        domain={'x': [0, 1], 'y': [0, 1]},
+        title={
+            'text': title,
+            'font': {'size': 16, 'family': "Poppins", 'color': color}
+        },
+        gauge={
+            'axis': {
+                'range': range,
+                'tickwidth': 1,
+                'tickcolor': 'white',
+                'tickfont': {'color': 'white'}
+            },
+            'bar': {'color': color},
+            'bgcolor': 'rgba(10, 10, 30, 0.3)',
+            'borderwidth': 2,
+            'bordercolor': 'rgba(255, 255, 255, 0.2)',
+            'steps': [
+                {'range': [1, 2.5], 'color': 'rgba(0, 206, 209, 0.5)'},
+                {'range': [2.5, 3.5], 'color': 'rgba(255, 215, 0, 0.5)'},
+                {'range': [3.5, 5], 'color': 'rgba(138, 43, 226, 0.5)'}
+            ],
+            'threshold': {
+                'line': {'color': color, 'width': 4},
+                'thickness': 0.75,
+                'value': value
+            }
+        }
+    ))
+    
+    fig.update_layout(
+        margin=dict(l=20, r=20, t=50, b=20),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font={'family': "Poppins", 'color': "white"}
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
 
 # ========== MAIN APP ==========
 def main():
