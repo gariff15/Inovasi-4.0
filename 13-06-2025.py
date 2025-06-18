@@ -6,7 +6,7 @@ from streamlit.components.v1 import html
 st.components.v1.html("""
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 <script>
-function fireConfetti() {
+function trigger_confetti() {
     var duration = 2 * 1000;
     var animationEnd = Date.now() + duration;
     var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
