@@ -1,5 +1,4 @@
 import streamlit as st
-import plotly.graph_objects as go
 from streamlit.components.v1 import html
 
 # --- Inject Lottie player and Confetti JS ---
@@ -183,10 +182,8 @@ elif st.session_state.page == 3:
     perf_class = classify_performance_level(mean_perf)
 
     # Lottie Animations (use surprise/slot/gift box)
-    giftbox_closed = "https://lottie.host/0e7b5f0a-3f3d-4d43-ae6a-0e8b3b1e9e3d/1n6kKf.json"
     giftbox_open = "https://lottie.host/1f6f3e5d-3e2d-4f5b-9e3d-4b5f3e5d3e2d/2h7l3j.json"
-    slot_closed = "https://lottie.host/0e7b5f0a-3f3d-4d43-ae6a-0e8b3b1e9e3d/1n6kKf.json"
-    slot_open = "https://lottie.host/1f6f3e5d-3e2d-4f5b-9e3d-4b5f3e5d3e2d/2h7l3j.json"
+    slot_open = "https://lottie.host/294b684d-d6b4-4116-ab35-85ef566d4379/VkGHcqcMUI.json"
 
     # Layout for game-like boxes
     st.markdown('<div class="giftbox-row">', unsafe_allow_html=True)
@@ -198,7 +195,7 @@ elif st.session_state.page == 3:
         if not st.session_state.stress_opened:
             html(f"""
             <div class="open-animation">
-                <lottie-player src="{giftbox_closed}" background="transparent" speed="1" style="width: 180px; height: 180px;" loop autoplay></lottie-player>
+                <lottie-player src="{giftbox_open}" background="transparent" speed="1" style="width: 180px; height: 180px;" loop autoplay></lottie-player>
             </div>
             """, height=190)
             if st.button("🎁 Click to Reveal!", key="open_stress", help="Click to open the box and see your stress result!", use_container_width=True):
@@ -207,31 +204,15 @@ elif st.session_state.page == 3:
                 st.rerun()
         else:
             html(f"""
+            <div class="open-animation
+::contentReference[oaicite:12]{index=12}
+             html(f"""
             <div class="open-animation">
                 <lottie-player src="{giftbox_open}" background="transparent" speed="1" style="width: 180px; height: 180px;" autoplay></lottie-player>
             </div>
-            """, height=180)
-            st.balloons()
+            """, height=200)
             st.subheader(f"Stress Level: {stress_class}")
             st.write(f"Mean Score: **{mean_stress:.2f}**")
-            fig = go.Figure(go.Indicator(
-                mode="gauge+number",
-                value=mean_stress,
-                domain={'x': [0,1], 'y':[0,1]},
-                title={'text': "Stress Meter"},
-                gauge={
-                    'axis': {'range': [1,5]},
-                    'bar': {'color': "royalblue"},
-                    'steps': [
-                        {'range': [1,1.5], 'color': "#b3ffd9"},
-                        {'range': [1.5,2], 'color': "#ccffcc"},
-                        {'range': [2,3], 'color': "#ffffcc"},
-                        {'range': [3,4], 'color': "#ffd6b3"},
-                        {'range': [4,5], 'color': "#ffb3b3"},
-                    ]
-                }
-            ))
-            st.plotly_chart(fig, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     # --- Performance Box ---
@@ -241,7 +222,7 @@ elif st.session_state.page == 3:
         if not st.session_state.perf_opened:
             html(f"""
             <div class="open-animation">
-                <lottie-player src="{slot_closed}" background="transparent" speed="1" style="width: 180px; height: 180px;" loop autoplay></lottie-player>
+                <lottie-player src="{slot_open}" background="transparent" speed="1" style="width: 180px; height: 180px;" loop autoplay></lottie-player>
             </div>
             """, height=190)
             if st.button("🎰 Click to Reveal!", key="open_perf", help="Click to open the slot and see your performance result!", use_container_width=True):
@@ -253,35 +234,16 @@ elif st.session_state.page == 3:
             <div class="open-animation">
                 <lottie-player src="{slot_open}" background="transparent" speed="1" style="width: 180px; height: 180px;" autoplay></lottie-player>
             </div>
-            """, height=180)
-            st.balloons()
+            """, height=200)
             st.subheader(f"Performance Level: {perf_class}")
             st.write(f"Mean Score: **{mean_perf:.2f}**")
-            fig = go.Figure(go.Indicator(
-                mode="gauge+number",
-                value=mean_perf,
-                domain={'x': [0,1], 'y':[0,1]},
-                title={'text': "Performance Meter"},
-                gauge={
-                    'axis': {'range': [1,5]},
-                    'bar': {'color': "crimson"},
-                    'steps': [
-                        {'range': [1,1.5], 'color': "#ffb3b3"},
-                        {'range': [1.5,2], 'color': "#ffd6b3"},
-                        {'range': [2,3], 'color': "#fffcb3"},
-                        {'range': [3,4], 'color': "#ccffcc"},
-                        {'range': [4,5], 'color': "#b3ffd9"},
-                    ]
-                }
-            ))
-            st.plotly_chart(fig, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Navigation
+    # --- Navigation Buttons ---
     col3, col4 = st.columns([1,1])
     with col3:
-        if st.button("⬅️ Back to Performance Questions", key="back2"):
+        if st.button("⬅️ Back to Questions", key="back2"):
             st.session_state.page = 2
             st.session_state.stress_opened = False
             st.session_state.perf_opened = False
@@ -293,3 +255,4 @@ elif st.session_state.page == 3:
                     del st.session_state[k]
             st.session_state.page = 1
             st.rerun()
+
