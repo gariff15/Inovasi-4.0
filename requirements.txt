@@ -3,3 +3,6 @@ numpy
 plotly
 pandas
 scikit-learn
+streamlit-lottie
+streamlit-components
+requests
