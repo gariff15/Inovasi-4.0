@@ -377,50 +377,36 @@ def show_results():
               ),
               type="primary")
 
-def plot_gauge(value: float, range: List[float], title: str, color: str):
-    """Create premium gauge chart with animations"""
-    fig = go.Figure(go.Indicator(
-        mode="gauge+number+delta",
-        value=value,
-        domain={'x': [0, 1], 'y': [0, 1]},
-        title={
-            'text': title,
-            'font': {'size': 16, 'family': "Poppins", 'color': color}
-        },
-        gauge={
             'axis': {
-                'range': range,
-                'tickwidth': 1,
+                'range': [1, 5],
+                'tickvals': [1, 2, 3, 4, 5],
                 'tickcolor': 'black',
-                'tickfont': {'color': 'black'}
+                'tickfont': {'color': 'black', 'size': 12}
             },
-            'bar': {'color': color},
-            'bgcolor': 'rgba(10, 10, 30, 0.3)',
-            'borderwidth': 2,
-            'bordercolor': 'rgba(255, 255, 255, 0.2)',
+            'bar': {'color': bar_color},
+            'bgcolor': 'rgba(255,255,255,0.8)',
+            'borderwidth': 1,
+            'bordercolor': "gray",
             'steps': [
-                {'range': [1, 2.5], 'color': 'rgba(0, 206, 209, 0.5)'},
-                {'range': [2.5, 3.5], 'color': 'rgba(255, 215, 0, 0.5)'},
-                {'range': [3.5, 5], 'color': 'rgba(138, 43, 226, 0.5)'}
+                {'range': [1, 2], 'color': '#A3E4D7' if is_stress else '#F5B7B1'},
+                {'range': [2, 3], 'color': '#FAD7A0' if is_stress else '#FAD7A0'},
+                {'range': [3, 4], 'color': '#F5B7B1' if is_stress else '#A3E4D7'},
+                {'range': [4, 5], 'color': '#8B0000' if is_stress else '#27AE60'}
             ],
             'threshold': {
-                'line': {'color': color, 'width': 4},
+                'line': {'color': bar_color, 'width': 4},
                 'thickness': 0.75,
                 'value': value
             }
         }
     ))
-    
     fig.update_layout(
-    title={
-        'text': "STRESFORMANCE TRACKER",
-        'x': 0.5,
-        'xanchor': 'center',
-        'font': {'size': 24},
-        'yanchor': 'top'
-    },
-    margin=dict(t=60)  # Add top margin for title
-)
+        margin=dict(l=20, r=20, t=50, b=20),
+        paper_bgcolor='rgba(255,255,255,0.9)',
+        font={'family': "Poppins", 'color': "black"}
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
 
 # ========== MAIN APP ==========
 def main():
