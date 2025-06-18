@@ -412,13 +412,15 @@ def plot_gauge(value: float, range: List[float], title: str, color: str):
     ))
     
     fig.update_layout(
-        margin=dict(l=20, r=20, t=50, b=20),
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        font={'family': "Poppins", 'color': "black"}
-    )
-    
-    st.plotly_chart(fig, use_container_width=True)
+    title={
+        'text': "STRESFORMANCE TRACKER",
+        'x': 0.5,
+        'xanchor': 'center',
+        'font': {'size': 24},
+        'yanchor': 'top'
+    },
+    margin=dict(t=60)  # Add top margin for title
+)
 
 # ========== MAIN APP ==========
 def main():
