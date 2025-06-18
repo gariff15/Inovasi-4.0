@@ -1,12 +1,5 @@
-streamlit==1.46.0
-numpy==1.26.2
-plotly==6.1.2
-pandas==2.2.1
+streamlit
+numpy
+pandas
 scikit-learn
-streamlit-lottie==0.0.5
-extra-streamlit-components==0.1.60
-streamlit-option-menu==0.3.12
-streamlit-aggrid==0.3.4
-streamlit-elements==0.1.8
-requests==2.31.0
-streamlit-elements==0.1.8
+plotly
