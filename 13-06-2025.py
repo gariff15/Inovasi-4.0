@@ -34,7 +34,7 @@ OPTION_SCORES = {
 def setup_page():
     """Configure premium page settings"""
     st.set_page_config(
-        page_title="STRESFORMANCE TRACKER",
+        page_title="STRESFORMANCE   TRACKER",
         page_icon="🧠💼",
         layout="centered",
         initial_sidebar_state="collapsed"
@@ -61,7 +61,7 @@ def setup_page():
         --primary: #8A2BE2;
         --secondary: #00CED1;
         --accent: #FFD700;
-        --text: #FFFFFF;
+        --text: #000000;
         --bg: #0A0A1A;
     }}
     </style>
@@ -155,7 +155,7 @@ def classify_performance_level(mean: float) -> str:
     elif mean < 2: return "🏆 High - Strong Output"
     elif mean < 3: return "🔄 Moderate - Room for Improvement"
     elif mean < 4: return "⚠️ Low - Needs Support"
-    return "🛑 Very Low - Critical Impact"
+    return "😢 Very Low - Very Unproductive"
 
 # ========== PAGE COMPONENTS ==========
 def show_header():
@@ -169,7 +169,7 @@ def show_header():
             style="width: 120px; height: 120px; margin: 0 auto;"
             autoplay>
         </lottie-player>
-        <h1 style="margin-top: -1rem;">Mind & Performance Pro</h1>
+        <h1 style="margin-top: -1rem;">STRESFORMANCE TRACKER</h1>
     </div>
     """, unsafe_allow_html=True)
 
@@ -185,7 +185,7 @@ def stress_assessment():
             style="width: 40px; height: 40px;"
             autoplay>
         </lottie-player>
-        Stress Assessment
+        Your Stress Measure
     </h2>
     <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
         Rate how often you've experienced these feelings in the past month:
@@ -220,7 +220,7 @@ def performance_assessment():
             style="width: 40px; height: 40px;"
             autoplay>
         </lottie-player>
-        Performance Assessment
+        Your Performance Measure
     </h2>
     <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
         Rate how often these performance issues occurred in the past month:
@@ -377,102 +377,50 @@ def show_results():
               ),
               type="primary")
 
-def plot_dynamic_gauge(value: float, title: str, is_stress: bool):
-    """Create gauge with dynamic colors and glowing effects"""
-    # Determine colors and effects based on value and meter type
-    if is_stress:
-        if value >= 4.5:  # Very High Stress
-            number_color = "#FF0000"  # Bright red
-            glow = "0 0 10px #FF0000, 0 0 20px #FF0000"
-            bar_color = "#FF0000"
-        elif value >= 4:  # High Stress
-            number_color = "#FF4500"  # Orange-red
-            glow = "0 0 5px #FF4500"
-            bar_color = "#FF4500"
-        elif value >= 3:  # Moderate Stress
-            number_color = "#FFD700"  # Gold
-            glow = "none"
-            bar_color = "#FFD700"
-        elif value >= 2:  # Low Stress
-            number_color = "#90EE90"  # Light green
-            glow = "none"
-            bar_color = "#90EE90"
-        else:  # Very Low Stress
-            number_color = "#32CD32"  # Lime green
-            glow = "0 0 10px #32CD32, 0 0 20px #32CD32"
-            bar_color = "#32CD32"
-    else:  # Performance meter (opposite colors)
-        if value >= 4.5:  # Very High Performance
-            number_color = "#32CD32"  # Lime green
-            glow = "0 0 10px #32CD32, 0 0 20px #32CD32"
-            bar_color = "#32CD32"
-        elif value >= 4:  # High Performance
-            number_color = "#90EE90"  # Light green
-            glow = "none"
-            bar_color = "#90EE90"
-        elif value >= 3:  # Moderate Performance
-            number_color = "#FFD700"  # Gold
-            glow = "none"
-            bar_color = "#FFD700"
-        elif value >= 2:  # Low Performance
-            number_color = "#FF4500"  # Orange-red
-            glow = "none"
-            bar_color = "#FF4500"
-        else:  # Very Low Performance
-            number_color = "#FF0000"  # Bright red
-            glow = "0 0 10px #FF0000, 0 0 20px #FF0000"
-            bar_color = "#FF0000"
-
-    # Create custom number display with glow effect
-    st.markdown(
-        f'<div style="text-align: center; font-size: 2.5rem; font-weight: bold; '
-        f'color: {number_color}; text-shadow: {glow}; margin: 10px 0;">'
-        f'{value:.1f}</div>',
-        unsafe_allow_html=True
-    )
-
-    # Create gauge figure
+def plot_gauge(value: float, range: List[float], title: str, color: str):
+    """Create premium gauge chart with animations"""
     fig = go.Figure(go.Indicator(
-        mode="gauge",
+        mode="gauge+number+delta",
         value=value,
         domain={'x': [0, 1], 'y': [0, 1]},
         title={
             'text': title,
-            'font': {'size': 18, 'color': 'black', 'family': "Poppins"}
+            'font': {'size': 16, 'family': "Poppins", 'color': color}
         },
         gauge={
             'axis': {
-                'range': [1, 5],
-                'tickvals': [1, 2, 3, 4, 5],
+                'range': range,
+                'tickwidth': 1,
                 'tickcolor': 'black',
-                'tickfont': {'color': 'black', 'size': 12}
+                'tickfont': {'color': 'black'}
             },
-            'bar': {'color': bar_color},
-            'bgcolor': 'rgba(255,255,255,0.8)',
-            'borderwidth': 1,
-            'bordercolor': "gray",
+            'bar': {'color': color},
+            'bgcolor': 'rgba(10, 10, 30, 0.3)',
+            'borderwidth': 2,
+            'bordercolor': 'rgba(255, 255, 255, 0.2)',
             'steps': [
-                {'range': [1, 2], 'color': '#A3E4D7' if is_stress else '#F5B7B1'},
-                {'range': [2, 3], 'color': '#FAD7A0' if is_stress else '#FAD7A0'},
-                {'range': [3, 4], 'color': '#F5B7B1' if is_stress else '#A3E4D7'},
-                {'range': [4, 5], 'color': '#8B0000' if is_stress else '#27AE60'}
+                {'range': [1, 2.5], 'color': 'rgba(0, 206, 209, 0.5)'},
+                {'range': [2.5, 3.5], 'color': 'rgba(255, 215, 0, 0.5)'},
+                {'range': [3.5, 5], 'color': 'rgba(138, 43, 226, 0.5)'}
             ],
             'threshold': {
-                'line': {'color': bar_color, 'width': 4},
+                'line': {'color': color, 'width': 4},
                 'thickness': 0.75,
                 'value': value
             }
         }
     ))
-
-    fig.update_layout(
-        margin=dict(l=20, r=20, t=50, b=20),
-        paper_bgcolor='rgba(255,255,255,0.9)',
-        font={'family': "Poppins", 'color': "black"}
-    )
     
-    st.plotly_chart(fig, use_container_width=True)
-
+    fig.update_layout(
+    title={
+        'text': "STRESFORMANCE TRACKER",
+        'x': 0.5,
+        'xanchor': 'center',
+        'font': {'size': 24},
+        'yanchor': 'top'
+    },
+    margin=dict(t=60)  # Add top margin for title
+)
 
 # ========== MAIN APP ==========
 def main():
