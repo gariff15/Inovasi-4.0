@@ -34,7 +34,7 @@ OPTION_SCORES = {
 def setup_page():
     """Configure premium page settings"""
     st.set_page_config(
-        page_title="STRESFORMANCE TRACKER",
+        page_title="STRESFORMANCE   TRACKER",
         page_icon="🧠💼",
         layout="centered",
         initial_sidebar_state="collapsed"
