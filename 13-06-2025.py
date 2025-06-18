@@ -103,7 +103,7 @@ def setup_page():
     }}
     .stButton button {{
         background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: white;
+        color: black;
         font-weight: 600;
         border: none;
         padding: 0.75rem 1.5rem;
@@ -355,7 +355,7 @@ def show_results():
     <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
         <button style="
             background: linear-gradient(135deg, #8A2BE2, #4B0082);
-            color: white;
+            color: black;
             border: none;
             padding: 0.75rem 1.5rem;
             border-radius: 12px;
