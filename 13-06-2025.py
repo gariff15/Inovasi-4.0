@@ -377,7 +377,7 @@ def show_results():
               ),
               type="primary")
 
-        'axis': {
+     'axis': {
                 'range': [1, 5],
                 'tickvals': [1, 2, 3, 4, 5],
                 'tickcolor': 'black',
