@@ -211,7 +211,7 @@ elif st.session_state.page == 3:
             if st.button("🎁 Assess Stress Level", key="open_stress"):
                 st.session_state.stress_opened = True
                 trigger_confetti()
-                st.experimental_rerun()
+                st.rerun()
         else:
             html(f"""
             <div class="open-animation" style="position: relative;">
@@ -254,7 +254,7 @@ elif st.session_state.page == 3:
             if st.button("🎁 Assess Performance", key="open_perf"):
                 st.session_state.perf_opened = True
                 trigger_confetti()
-                st.experimental_rerun()
+                st.rerun()
         else:
             html(f"""
             <div class="open-animation" style="position: relative;">
@@ -293,11 +293,11 @@ elif st.session_state.page == 3:
             st.session_state.page = 2
             st.session_state.stress_opened = False
             st.session_state.perf_opened = False
-            st.experimental_rerun()
+            st.rerun()
     with col2:
         if st.button("🔄 Restart", key="restart"):
             for k in ["stress_answers", "performance_answers", "stress_opened", "perf_opened"]:
                 if k in st.session_state:
                     del st.session_state[k]
             st.session_state.page = 1
-            st.experimental_rerun()
+            st.rerun()
