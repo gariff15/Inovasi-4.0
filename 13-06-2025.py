@@ -167,14 +167,14 @@ elif st.session_state.page == 2:
     with col1:
         if st.button("⬅️ Back", key="back1"):
             st.session_state.page = 1
-            st.experimental_rerun()
+            st.rerun()
     with col2:
         if st.button("Next ➡️", key="next2", type="primary"):
             if None in st.session_state.performance_answers:
                 st.warning("Please answer all performance questions before proceeding.")
             else:
                 st.session_state.page = 3
-                st.experimental_rerun()
+                st.rerun()
 
 # Page 3: Results with Gift Boxes
 elif st.session_state.page == 3:
