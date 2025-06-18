@@ -34,7 +34,7 @@ OPTION_SCORES = {
 def setup_page():
     """Configure premium page settings"""
     st.set_page_config(
-        page_title="STRESFORMANCE   TRACKER",
+        page_title="STRESFORMANCE TRACKER",
         page_icon="🧠💼",
         layout="centered",
         initial_sidebar_state="collapsed"
@@ -61,7 +61,7 @@ def setup_page():
         --primary: #8A2BE2;
         --secondary: #00CED1;
         --accent: #FFD700;
-        --text: #000000;
+        --text: #FFFFFF;
         --bg: #0A0A1A;
     }}
     </style>
@@ -103,7 +103,7 @@ def setup_page():
     }}
     .stButton button {{
         background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: black;
+        color: white;
         font-weight: 600;
         border: none;
         padding: 0.75rem 1.5rem;
@@ -155,7 +155,7 @@ def classify_performance_level(mean: float) -> str:
     elif mean < 2: return "🏆 High - Strong Output"
     elif mean < 3: return "🔄 Moderate - Room for Improvement"
     elif mean < 4: return "⚠️ Low - Needs Support"
-    return "😢 Very Low - Very Unproductive"
+    return "🛑 Very Low - Critical Impact"
 
 # ========== PAGE COMPONENTS ==========
 def show_header():
@@ -169,7 +169,7 @@ def show_header():
             style="width: 120px; height: 120px; margin: 0 auto;"
             autoplay>
         </lottie-player>
-        <h1 style="margin-top: -1rem;">STRESFORMANCE TRACKER</h1>
+        <h1 style="margin-top: -1rem;">Mind & Performance Pro</h1>
     </div>
     """, unsafe_allow_html=True)
 
@@ -185,7 +185,7 @@ def stress_assessment():
             style="width: 40px; height: 40px;"
             autoplay>
         </lottie-player>
-        Your Stress Measure
+        Stress Assessment
     </h2>
     <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
         Rate how often you've experienced these feelings in the past month:
@@ -220,7 +220,7 @@ def performance_assessment():
             style="width: 40px; height: 40px;"
             autoplay>
         </lottie-player>
-        Your Performance Measure
+        Performance Assessment
     </h2>
     <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
         Rate how often these performance issues occurred in the past month:
@@ -355,7 +355,7 @@ def show_results():
     <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
         <button style="
             background: linear-gradient(135deg, #8A2BE2, #4B0082);
-            color: black;
+            color: white;
             border: none;
             padding: 0.75rem 1.5rem;
             border-radius: 12px;
@@ -377,7 +377,71 @@ def show_results():
               ),
               type="primary")
 
-     'axis': {
+def plot_dynamic_gauge(value: float, title: str, is_stress: bool):
+    """Create gauge with dynamic colors and glowing effects"""
+    # Determine colors and effects based on value and meter type
+    if is_stress:
+        if value >= 4.5:  # Very High Stress
+            number_color = "#FF0000"  # Bright red
+            glow = "0 0 10px #FF0000, 0 0 20px #FF0000"
+            bar_color = "#FF0000"
+        elif value >= 4:  # High Stress
+            number_color = "#FF4500"  # Orange-red
+            glow = "0 0 5px #FF4500"
+            bar_color = "#FF4500"
+        elif value >= 3:  # Moderate Stress
+            number_color = "#FFD700"  # Gold
+            glow = "none"
+            bar_color = "#FFD700"
+        elif value >= 2:  # Low Stress
+            number_color = "#90EE90"  # Light green
+            glow = "none"
+            bar_color = "#90EE90"
+        else:  # Very Low Stress
+            number_color = "#32CD32"  # Lime green
+            glow = "0 0 10px #32CD32, 0 0 20px #32CD32"
+            bar_color = "#32CD32"
+    else:  # Performance meter (opposite colors)
+        if value >= 4.5:  # Very High Performance
+            number_color = "#32CD32"  # Lime green
+            glow = "0 0 10px #32CD32, 0 0 20px #32CD32"
+            bar_color = "#32CD32"
+        elif value >= 4:  # High Performance
+            number_color = "#90EE90"  # Light green
+            glow = "none"
+            bar_color = "#90EE90"
+        elif value >= 3:  # Moderate Performance
+            number_color = "#FFD700"  # Gold
+            glow = "none"
+            bar_color = "#FFD700"
+        elif value >= 2:  # Low Performance
+            number_color = "#FF4500"  # Orange-red
+            glow = "none"
+            bar_color = "#FF4500"
+        else:  # Very Low Performance
+            number_color = "#FF0000"  # Bright red
+            glow = "0 0 10px #FF0000, 0 0 20px #FF0000"
+            bar_color = "#FF0000"
+
+    # Create custom number display with glow effect
+    st.markdown(
+        f'<div style="text-align: center; font-size: 2.5rem; font-weight: bold; '
+        f'color: {number_color}; text-shadow: {glow}; margin: 10px 0;">'
+        f'{value:.1f}</div>',
+        unsafe_allow_html=True
+    )
+
+    # Create gauge figure
+    fig = go.Figure(go.Indicator(
+        mode="gauge",
+        value=value,
+        domain={'x': [0, 1], 'y': [0, 1]},
+        title={
+            'text': title,
+            'font': {'size': 18, 'color': 'black', 'family': "Poppins"}
+        },
+        gauge={
+            'axis': {
                 'range': [1, 5],
                 'tickvals': [1, 2, 3, 4, 5],
                 'tickcolor': 'black',
@@ -400,6 +464,7 @@ def show_results():
             }
         }
     ))
+
     fig.update_layout(
         margin=dict(l=20, r=20, t=50, b=20),
         paper_bgcolor='rgba(255,255,255,0.9)',
@@ -407,6 +472,7 @@ def show_results():
     )
     
     st.plotly_chart(fig, use_container_width=True)
+
 
 # ========== MAIN APP ==========
 def main():
