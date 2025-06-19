@@ -267,7 +267,7 @@ def show_header():
             style="width: 120px; height: 120px; margin: 0 auto;"
             autoplay>
         </lottie-player>
-        <h1 style="margin-top: -1rem;">STRESFORMANCE TRACKER</h1>
+        <h1 style="margin-top: -1rem; white-space: nowrap;">STRESFORMANCE TRACKER</h1>
     </div>
     """, unsafe_allow_html=True)
 
