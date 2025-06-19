@@ -34,7 +34,7 @@ OPTION_SCORES = {
 def setup_page():
     """Configure premium page settings"""
     st.set_page_config(
-        page_title="STRESFORMANCE   TRACKER",
+        page_title="STRESFORMANCE TRACKER",
         page_icon="🧠💼",
         layout="centered",
         initial_sidebar_state="collapsed"
@@ -43,7 +43,7 @@ def setup_page():
     # Inject premium animations and effects
     html(f"""
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/conflict.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script>
     function fireConfetti() {{
@@ -52,7 +52,7 @@ def setup_page():
             spread: 90,
             origin: {{ y: 0.6 }},
             colors: ['#8A2BE2', '#00CED1', '#FFD700', '#FF6347'],
-            shapes: ['circle', 'square', 'star']
+            shapes: ['circle, square, star']
         }});
     }}
     </script>
@@ -102,8 +102,8 @@ def setup_page():
         color: var(--text) !important;
     }}
     .stButton button {{
-        background: linear-gradient(135deg, var(--primary), var(--secondary);
-        color: black;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
         font-weight: 600;
         border: none;
         padding: 0.75rem 1.5rem;
@@ -157,7 +157,7 @@ def classify_performance_level(mean: float) -> str:
     elif mean < 4: return "⚠️ Low - Needs Support"
     return "😢 Very Low - Very Unproductive"
 
-#Gauge
+# ========== GAUGE FUNCTION ==========
 def plot_dynamic_gauge(value: float, title: str, is_stress: bool):
     """Create gauge with dynamic colors and glowing effects"""
     # Determine colors and effects based on value and meter type
@@ -254,7 +254,6 @@ def plot_dynamic_gauge(value: float, title: str, is_stress: bool):
     
     st.plotly_chart(fig, use_container_width=True)
 
-
 # ========== PAGE COMPONENTS ==========
 def show_header():
     """Premium app header with animation"""
@@ -345,21 +344,20 @@ def performance_assessment():
             st.rerun()
 
 def show_results():
-    """Premium results dashboard"""
+    """Premium results dashboard with enhanced meters"""
     trigger_confetti()
     show_header()
     
-    # Process stress results
+    # Process results
     stress_scores = [OPTION_SCORES[ans] for ans in st.session_state.stress_answers]
     stress_mean = calculate_mean(stress_scores)
     stress_class = classify_stress_level(stress_mean)
     
-    # Process performance results
     perf_scores = [OPTION_SCORES[ans] for ans in st.session_state.perf_answers]
     perf_mean = calculate_mean(perf_scores)
     perf_class = classify_performance_level(perf_mean)
     
-    # Results header with celebration
+    # Results header
     st.markdown("""
     <div style="text-align: center; margin-bottom: 2rem;">
         <h2>Your Assessment Results</h2>
@@ -396,7 +394,7 @@ def show_results():
             <p style="color: #00CED1; font-style: italic;">{stress_class.split(' - ')[1]}</p>
         </div>
         """, unsafe_allow_html=True)
-        plot_gauge(stress_mean, [1, 5], "🧠 Stress Meter", "#8A2BE2")
+        plot_dynamic_gauge(stress_mean, "🧠 Stress Meter", is_stress=True)
     
     with col2:
         st.markdown(f"""
@@ -418,7 +416,18 @@ def show_results():
             <p style="color: #8A2BE2; font-style: italic;">{perf_class.split(' - ')[1]}</p>
         </div>
         """, unsafe_allow_html=True)
-        plot_gauge(perf_mean, [1, 5], "💼 Performance Meter", "#00CED1")
+        plot_dynamic_gauge(perf_mean, "💼 Performance Meter", is_stress=False)
+    
+    # Additional meter visualizations
+    st.markdown("""
+    <div style="text-align: center; margin: 2rem 0;">
+        <h3>Detailed Metrics Visualization</h3>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Full-width meters
+    plot_dynamic_gauge(stress_mean, "🧠 Stress Level Detailed", is_stress=True)
+    plot_dynamic_gauge(perf_mean, "💼 Performance Level Detailed", is_stress=False)
     
     # Recommendations section
     st.markdown("""
@@ -453,7 +462,7 @@ def show_results():
     <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
         <button style="
             background: linear-gradient(135deg, #8A2BE2, #4B0082);
-            color: black;
+            color: white;
             border: none;
             padding: 0.75rem 1.5rem;
             border-radius: 12px;
@@ -474,51 +483,6 @@ def show_results():
                   st.rerun()
               ),
               type="primary")
-
-def plot_gauge(value: float, range: List[float], title: str, color: str):
-    """Create premium gauge chart with animations"""
-    fig = go.Figure(go.Indicator(
-        mode="gauge+number+delta",
-        value=value,
-        domain={'x': [0, 1], 'y': [0, 1]},
-        title={
-            'text': title,
-            'font': {'size': 16, 'family': "Poppins", 'color': color}
-        },
-        gauge={
-            'axis': {
-                'range': range,
-                'tickwidth': 1,
-                'tickcolor': 'black',
-                'tickfont': {'color': 'black'}
-            },
-            'bar': {'color': color},
-            'bgcolor': 'rgba(10, 10, 30, 0.3)',
-            'borderwidth': 2,
-            'bordercolor': 'rgba(255, 255, 255, 0.2)',
-            'steps': [
-                {'range': [1, 2.5], 'color': 'rgba(0, 206, 209, 0.5)'},
-                {'range': [2.5, 3.5], 'color': 'rgba(255, 215, 0, 0.5)'},
-                {'range': [3.5, 5], 'color': 'rgba(138, 43, 226, 0.5)'}
-            ],
-            'threshold': {
-                'line': {'color': color, 'width': 4},
-                'thickness': 0.75,
-                'value': value
-            }
-        }
-    ))
-    
-    fig.update_layout(
-    title={
-        'text': "STRESFORMANCE TRACKER",
-        'x': 0.5,
-        'xanchor': 'center',
-        'font': {'size': 24},
-        'yanchor': 'top'
-    },
-    margin=dict(t=60)  # Add top margin for title
-)
 
 # ========== MAIN APP ==========
 def main():
@@ -543,3 +507,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
