@@ -362,7 +362,7 @@ def show_results():
     # Results header with celebration
     st.markdown("""
     <div style="text-align: center; margin-bottom: 2rem;">
-        <h2>Your Assessment Results</h2>
+        <h2>Pairing Results fro Mean Score</h2>
         <lottie-player 
             src="https://assets1.lottiefiles.com/packages/lf20_olc8tpeq.json" 
             background="transparent" 
@@ -425,7 +425,7 @@ def show_results():
     <div style="background: rgba(138, 43, 226, 0.1); border-radius: 16px; padding: 1.5rem; 
                 border: 1px solid rgba(0, 206, 209, 0.3); margin-top: 2rem;">
         <h3 style="color: #FFD700; display: flex; align-items: center; gap: 0.5rem;">
-            💎 Personalized Recommendations
+            💎 Employer Action
         </h3>
         <div style="display: flex; align-items: center; gap: 1rem; margin: 1rem 0;">
             <lottie-player 
