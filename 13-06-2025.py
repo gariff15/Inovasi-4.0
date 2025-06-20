@@ -264,7 +264,7 @@ def show_header():
             src="https://assets9.lottiefiles.com/packages/lf20_5tkzkblw.json" 
             background="transparent" 
             speed="1" 
-            style="width: 90px; height: 90px; margin: 0 auto;"
+            style="width: 120px; height: 120px; margin: 0 auto;"
             autoplay>
         </lottie-player>
         <h1 style="margin-top: -1rem; white-space: pre-line;">STRESFORMANCE<br>TRACKER</h1>
