@@ -100,31 +100,26 @@ def setup_page():
         box-shadow: 0 3px 18px rgba(255, 215, 0, 0.13);
         border-left: 5px solid #FFD700;
     }
-    h1 {
-        color: var(--primary);
-        font-weight: 700;
-        font-size: 2.5rem;
-        text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
-        margin-bottom: 0.5rem;
-        letter-spacing: 1px;
-    }
-    .title-main {
+    .big-title {
         text-align: center;
-        margin-bottom: 0;
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: var(--primary);
+        font-size: 3.2rem;
+        font-weight: 900;
+        color: #8A2BE2;
+        margin-bottom: 0.2em;
+        letter-spacing: 2px;
         line-height: 1.1;
-        letter-spacing: 1px;
+        text-shadow: 0 4px 18px rgba(138, 43, 226, 0.25), 0 1px 0 #fff, 0 0 40px #FFD700;
     }
-    .title-sub {
+    .big-title-sub {
         text-align: center;
-        margin-top: 0;
-        margin-bottom: 2rem;
         font-size: 2.2rem;
-        font-weight: 700;
-        color: var(--secondary);
+        font-weight: 800;
+        color: #FFD700;
+        margin-top: -0.4em;
+        margin-bottom: 1.5em;
         letter-spacing: 1px;
+        line-height: 1.1;
+        text-shadow: 0 2px 12px rgba(255, 215, 0, 0.18);
     }
     </style>
     """, height=0)
@@ -188,15 +183,9 @@ def plot_dynamic_gauge(value, title, is_stress):
 # ========== PAGE COMPONENTS ==========
 def show_header():
     st.markdown("""
-    <div style="text-align: center; margin-bottom: 1rem;">
-        <lottie-player 
-            src="https://assets9.lottiefiles.com/packages/lf20_5tkzkblw.json" 
-            background="transparent" 
-            speed="1" 
-            style="width: 110px; height: 110px; margin: 0 auto;"
-            autoplay>
-        </lottie-player>
-        <div class="title-main">Stresformance<br><span class="title-sub">Tracker</span></div>
+    <div>
+        <div class="big-title">Stresformance</div>
+        <div class="big-title-sub">Tracker</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -355,4 +344,3 @@ elif st.session_state.page == 2:
     performance_assessment()
 elif st.session_state.page == 3:
     show_results()
-
