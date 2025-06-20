@@ -511,7 +511,7 @@ def plot_gauge(value: float, range: List[float], title: str, color: str):
     
     fig.update_layout(
     title={
-        'text': "STRESFORMANCE TRACKER",
+        'text': "STRESFORMANCE \n TRACKER",
         'x': 0.5,
         'xanchor': 'center',
         'font': {'size': 24},
