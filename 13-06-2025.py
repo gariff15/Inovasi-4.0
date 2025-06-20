@@ -62,7 +62,7 @@ def setup_page():
         --secondary: #00CED1;
         --accent: #FFD700;
         --text: #000000;
-        --bg: #0A0A1A;
+        --bg: #F5F5DC;
     }}
     </style>
     """, height=0)
