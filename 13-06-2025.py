@@ -182,7 +182,7 @@ def plot_dynamic_gauge(value, title, is_stress):
 
 # ========== PAGE COMPONENTS ==========
 def show_header():
-    st.markdown("""
+    st.header("""
     <div>
         <div class="big-title">Stresformance</div>
         <div class="big-title-sub">Tracker</div>
