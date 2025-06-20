@@ -144,17 +144,17 @@ def calculate_mean(scores: List[int]) -> float:
 def classify_stress_level(mean: float) -> str:
     """Classify stress with big emoji indicators"""
     if mean < 1.5: return "🌊 Very Low - Excellent Resilience"
-    elif 1.5 < mean < 2.5: return "🌤️ Low - Good Balance" 
-    elif 2.5 mean < 3: return "🌓 Moderate - Needs Attention"
-    elif 3 < mean < 4: return "🌋 High - Significant Stress"
+    elif mean < 2.5: return "🌤️ Low - Good Balance" 
+    elif mean < 3: return "🌓 Moderate - Needs Attention"
+    elif mean < 4: return "🌋 High - Significant Stress"
     return "🔥 Very High - Critical Levels"
 
 def classify_performance_level(mean: float) -> str:
     """Classify performance with big emoji indicators"""
     if mean < 1.5: return "🚀 Very High - Peak Performance"
-    elif 1.5 < mean < 2.5: return "🏆 High - Strong Output"
-    elif 2.5 < mean < 3: return "🔄 Moderate - Room for Improvement"
-    elif 3 < mean < 4: return "⚠️ Low - Needs Support"
+    elif mean < 2.5: return "🏆 High - Strong Output"
+    elif mean < 3: return "🔄 Moderate - Room for Improvement"
+    elif mean < 4: return "⚠️ Low - Needs Support"
     return "😢 Very Low - Very Unproductive"
 
 #Gauge
