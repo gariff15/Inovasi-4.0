@@ -145,7 +145,6 @@ def classify_performance_level(mean):
     return "😢 Very Low - Very Unproductive"
 
 def plot_dynamic_gauge(value, title, is_stress):
-    # Color logic as before, but for performance, reverse the color meaning
     if is_stress:
         bar_color = "#8A2BE2"
         steps = [
@@ -181,16 +180,16 @@ def plot_dynamic_gauge(value, title, is_stress):
     st.plotly_chart(fig, use_container_width=True)
 
 # ========== PAGE COMPONENTS ==========
-def show_header():
-    st.header("""
+def show_big_title():
+    st.markdown("""
     <div>
-        <div class="big-title">Stresformance</div>
-        <div class="big-title-sub">Tracker</div>
+        <div class="big-title">STRESFORMANCE</div>
+        <div class="big-title-sub">TRACKER</div>
     </div>
     """, unsafe_allow_html=True)
 
 def stress_assessment():
-    show_header()
+    show_big_title()
     st.markdown("""
     <h2 style="display: flex; align-items: center; gap: 0.5rem;">
         <lottie-player 
@@ -218,7 +217,6 @@ def stress_assessment():
             st.rerun()
 
 def performance_assessment():
-    show_header()
     st.markdown("""
     <h2 style="display: flex; align-items: center; gap: 0.5rem;">
         <lottie-player 
@@ -249,7 +247,6 @@ def performance_assessment():
 
 def show_results():
     trigger_confetti()
-    show_header()
     # Process stress results
     stress_scores = [OPTION_SCORES[ans] for ans in st.session_state.stress_answers]
     stress_mean = calculate_mean(stress_scores)
