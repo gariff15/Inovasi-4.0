@@ -268,7 +268,6 @@ def show_header():
     <style>
     .custom-title{
     font-family:'Poppins', sans-serif;
-    font-weight:400;
     font-size:2.5rem;
     text-align:center;
     color: black;
