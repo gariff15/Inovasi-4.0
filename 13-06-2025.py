@@ -209,7 +209,7 @@ def plot_dynamic_gauge(value: float, title: str, is_stress: bool):
 
     # Create custom number display with glow effect
     st.markdown(
-        f'<div style="text-align: center; font-size: 2.5rem; font-weight: bold; '
+        f'<div style="text-align: left; font-size: 2.5rem; font-weight: bold; '
         f'color: {number_color}; text-shadow: {glow}; margin: 10px 0;">'
         f'{value:.1f}</div>',
         unsafe_allow_html=True
