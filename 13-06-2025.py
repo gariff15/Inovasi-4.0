@@ -40,7 +40,7 @@ def setup_page():
     <style>
     .big-title {
         text-align: center;
-        font-size: 2rem;
+        font-size: 3rem;
         font-weight: 900;
         color: #8A2BE2;
         margin-bottom: 0.2em;
