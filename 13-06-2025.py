@@ -262,7 +262,7 @@ def plot_dynamic_gauge(value: float, title: str, is_stress: bool):
 def show_header():
     """Premium app header with animation"""
     st.markdown("""
-    <div style="text-align: center; margin-bottom: 2rem;">
+    <div style="text-align: left; margin-bottom: 2rem;">
         <lottie-player 
             src="https://assets9.lottiefiles.com/packages/lf20_5tkzkblw.json" 
             background="transparent" 
@@ -516,7 +516,7 @@ def plot_gauge(value: float, range: List[float], title: str, color: str):
     title={
         'text': "STRESFORMANCE TRACKER",
         'x': 0.5,
-        'xanchor': 'center',
+        'xanchor': 'left',
         'font': {'size': 24},
         'yanchor': 'top'
     },
