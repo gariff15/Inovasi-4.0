@@ -95,7 +95,7 @@ def setup_page():
         font-weight: 600;
         font-size: 1.8rem;
         text-shadow: 0 0 8px rgba(0, 206, 209, 0.5);
-        margin-top: 1.5rem;
+        margin-top: 1.8rem;
         border-bottom: 2px solid var(--accent);
         padding-bottom: 0.5rem;
     }}
@@ -301,7 +301,7 @@ def show_header():
     }
     </style>
 
-    <div class="custom-title">STRESFORMANCE</div>
+    <div class="custom-title">STRESFORMANCE <br> TRACKER</div>
 """, unsafe_allow_html=True)
 
 def stress_assessment():
