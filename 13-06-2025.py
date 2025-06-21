@@ -77,16 +77,19 @@ def setup_page():
         color: var(--text);
         background-image: radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.1) 0%, rgba(0, 206, 209, 0.05) 90%);
     }}
-    h1 {{
-        color: var(--primary);
-        font-weight: 600;
-        font-size: 1.8rem;
-        text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
-        margin-bottom: 0.5rem;
-        letter-spacing: 1px;
-        white-space: nowrap;
-        overflow: hidden;
+    .custom-title{{
+    font-size: 2rem;
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    width:100%;
+    display:block;
+    text-align:center;
+    line-height:1.2;
+    margin-bottom:0.3rem;
     }}
+
+    
     h2 {{
         color: var(--secondary);
         font-weight: 600;
