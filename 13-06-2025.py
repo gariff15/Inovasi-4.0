@@ -266,15 +266,12 @@ def show_header():
     """Premium app header with animation"""
     st.markdown("""
     <div style="text-align: center; margin-bottom: 2rem;">
-        <lottie-player 
-            src="https://assets9.lottiefiles.com/packages/lf20_5tkzkblw.json" 
-            background="transparent" 
-            speed="1" 
-            style="width: 120px; height: 120px; margin: 0 auto;"
-            autoplay>
-        </lottie-player>
-        <h1 style="margin-top: -1rem; white-space: pre-line;">STRESFORMANCE<br>TRACKER</h1>
-    </div>
+    .custom-title{
+    font-size:1.5rem;
+    color: red;
+    }
+    </style>
+    <div class="custom-title">STRESFORMANCE<br>TRACKER</div>
     """, unsafe_allow_html=True)
 
 def stress_assessment():
