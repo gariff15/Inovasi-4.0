@@ -267,8 +267,14 @@ def show_header():
     st.markdown("""
     <style>
     .custom-title{
-    font-size:2rem;
-    color: red;
+    font-size:2.5rem;
+    text-align:center;
+    color: black;
+        0 0 5px #8a2be2,
+        0 0 10px #8a2be2,
+        0 0 20px #8a2be2,
+        0 0 30px #8a2be2;
+        margin-bottom:0.2
     }
     </style>
     <div class="custom-title">STRESFORMANCE<br>TRACKER</div>
