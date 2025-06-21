@@ -80,7 +80,7 @@ def setup_page():
     h1 {{
         color: var(--primary);
         font-weight: 600;
-        font-size: 1.8rem;
+        font-size: 1rem;
         text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
         margin-bottom: 0.5rem;
         letter-spacing: 1px;
@@ -283,7 +283,7 @@ def stress_assessment():
             src="https://assets1.lottiefiles.com/packages/lf20_gn0tojcq.json" 
             background="transparent" 
             speed="1" 
-            style="width: 40px; height: 40px;"
+            style="width: 30px; height: 30px;"
             autoplay>
         </lottie-player>
         Your Stress Measure
@@ -318,7 +318,7 @@ def performance_assessment():
             src="https://assets1.lottiefiles.com/packages/lf20_1a8dx7tj.json" 
             background="transparent" 
             speed="1" 
-            style="width: 40px; height: 40px;"
+            style="width: 30px; height: 30px;"
             autoplay>
         </lottie-player>
         Your Performance Measure
@@ -486,7 +486,7 @@ def plot_gauge(value: float, range: List[float], title: str, color: str):
         domain={'x': [0, 1], 'y': [0, 1]},
         title={
             'text': title,
-            'font': {'size': 12, 'family': "Poppins", 'color': color}
+            'font': {'size': 16, 'family': "Poppins", 'color': color}
         },
         gauge={
             'axis': {
@@ -515,12 +515,12 @@ def plot_gauge(value: float, range: List[float], title: str, color: str):
     fig.update_layout(
     title={
         'text': "STRESFORMANCE TRACKER",
-        'x': 0.5,
+        'x': 0.4,
         'xanchor': 'center',
-        'font': {'size': 20},
+        'font': {'size': 18},
         'yanchor': 'top'
     },
-    margin=dict(t=60)  # Add top margin for title
+    margin=dict(t=50)  # Add top margin for title
 )
 
 # ========== MAIN APP ==========
