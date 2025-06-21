@@ -412,8 +412,8 @@ def show_results():
     with col1:
         st.markdown(f"""
         <div style="background: rgba(10, 10, 30, 0.7); border-radius: 16px; padding: 1.5rem; 
-                    border-left: 4px solid #8A2BE2; margin-bottom: 2rem;">
-            <h3 style="color: #8A2BE2; display: flex; align-items: center; gap: 0.5rem;">
+                    border-left: 4px solid #EEDD62; margin-bottom: 2rem;">
+            <h3 style="color: #EEDD62; display: flex; align-items: center; gap: 0.5rem;">
                 🧠 Stress Analysis
             </h3>
             <div style="font-size: 1.2rem; margin: 1rem 0;">
