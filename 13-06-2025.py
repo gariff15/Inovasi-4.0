@@ -516,7 +516,7 @@ def plot_gauge(value: float, range: List[float], title: str, color: str):
         'text': "STRESFORMANCE TRACKER",
         'x': 0.5,
         'xanchor': 'center',
-        'font': {'size': 20},
+        'font': {'size': 24},
         'yanchor': 'top'
     },
     margin=dict(t=60)  # Add top margin for title
