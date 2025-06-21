@@ -79,10 +79,12 @@ def setup_page():
     h1 {{
         color: var(--primary);
         font-weight: 700;
-        font-size: 2.5rem;
+        font-size: 2rem;
         text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
         margin-bottom: 0.5rem;
         letter-spacing: 1px;
+        white-space: nowrap;
+        overflow: hidden;
     }}
     h2 {{
         color: var(--secondary);
