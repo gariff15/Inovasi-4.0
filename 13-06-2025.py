@@ -266,20 +266,43 @@ def show_header():
     """Premium app header with animation"""
     st.markdown("""
     <style>
-    .custom-title{
-    font-weight:400;
-    font-size:2.5rem;
-    text-align:center;
-    color: black;
-        0 0 5px #00d0ff,
-        0 0 10px #00d0ff,
-        0 0 20px #00d0ff,
-        0 0 30px #00d0ff;
-        margin-bottom:0.2
+    @keyframes pulseGlow {
+        0% {
+            text-shadow:
+                0 0 5px #00d0ff,
+                0 0 10px #00d0ff,
+                0 0 20px #00d0ff,
+                0 0 30px #00d0ff;
+        }
+        50% {
+            text-shadow:
+                0 0 2px #00aaff,
+                0 0 4px #00aaff,
+                0 0 8px #00aaff,
+                0 0 12px #00aaff;
+        }
+        100% {
+            text-shadow:
+                0 0 5px #00d0ff,
+                0 0 10px #00d0ff,
+                0 0 20px #00d0ff,
+                0 0 30px #00d0ff;
+        }
+    }
+
+    .custom-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: white;
+        text-align: center;
+        animation: pulseGlow 3s infinite ease-in-out;
+        margin-bottom: 0.2rem;
     }
     </style>
-    <div class="custom-title">STRESFORMANCE<br>TRACKER</div>
-    """, unsafe_allow_html=True)
+
+    <div class="custom-title">STRESFORMANCE</div>
+""", unsafe_allow_html=True)
 
 def stress_assessment():
     """Premium stress assessment page"""
