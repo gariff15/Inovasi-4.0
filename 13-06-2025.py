@@ -271,10 +271,10 @@ def show_header():
     font-size:2.5rem;
     text-align:center;
     color: black;
-        0 0 5px #8a2be2,
-        0 0 10px #8a2be2,
-        0 0 20px #8a2be2,
-        0 0 30px #8a2be2;
+        0 0 5px #00d0ff,
+        0 0 10px #00d0ff,
+        0 0 20px #00d0ff,
+        0 0 30px #00d0ff;
         margin-bottom:0.2
     }
     </style>
