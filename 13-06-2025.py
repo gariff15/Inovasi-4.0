@@ -267,7 +267,6 @@ def show_header():
     st.markdown("""
     <style>
     .custom-title{
-    font-family:sans-serif;
     font-weight:400;
     font-size:2.5rem;
     text-align:center;
