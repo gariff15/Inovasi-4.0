@@ -292,12 +292,12 @@ def show_header():
 
     .custom-title {
         font-family: 'Poppins', sans-serif;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         font-weight: 800;
         color: white;
         text-align: center;
         animation: pulseGlow 3s infinite ease-in-out;
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.9rem;
     }
     </style>
 
