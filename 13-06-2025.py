@@ -78,7 +78,7 @@ def setup_page():
         background-image: radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.1) 0%, rgba(0, 206, 209, 0.05) 90%);
     }}
     .custom-title{{
-    font-size: 2rem;
+    font-size: 1.8rem;
     white-space:nowrap;
     overflow: hidden;
     text-overflow:ellipsis;
