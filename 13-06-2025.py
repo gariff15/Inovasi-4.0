@@ -265,7 +265,7 @@ def plot_dynamic_gauge(value: float, title: str, is_stress: bool):
 def show_header():
     """Premium app header with animation"""
     st.markdown("""
-    <div style="text-align: center; margin-bottom: 2rem;">
+    <style>
     .custom-title{
     font-size:1.5rem;
     color: red;
