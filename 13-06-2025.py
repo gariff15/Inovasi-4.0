@@ -297,7 +297,7 @@ def show_header():
         color: white;
         text-align: center;
         animation: pulseGlow 3s infinite ease-in-out;
-        margin-bottom: -1rem;
+        margin-bottom: 2.5rem;
     }
     </style>
 
