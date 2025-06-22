@@ -309,15 +309,25 @@ def get_pairing_recommendation(stress_level, perf_level):
     return pairs.get((stress_level, perf_level), ("-", ""))
 
 def show_results():
-    trigger_confetti()
-    # Calculate means and classify levels
+    # Calculate mean scores
     stress_scores = [OPTION_SCORES[ans] for ans in st.session_state.stress_answers]
     stress_mean = calculate_mean(stress_scores)
     stress_level = classify_stress_level(stress_mean)
-    
+
     perf_scores = [OPTION_SCORES[ans] for ans in st.session_state.perf_answers]
     perf_mean = calculate_mean(perf_scores)
     perf_level = classify_performance_level(perf_mean)
+
+    # Call your Employer Action function here, passing the classified levels
+    employer_action = get_employer_action(stress_level, perf_level)
+
+    # Now display the results along with the employer action
+    st.write(f"Stress Level: {stress_level}")
+    st.write(f"Performance Level: {perf_level}")
+    st.write(f"Employer Action: {employer_action}")
+
+    # ...rest of your plotting and UI code...
+
 
     # Normalize classification strings to exact keys used in pairing_map
     stress_level = stress_level.strip().title()
