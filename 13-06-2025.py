@@ -351,33 +351,66 @@ def show_results():
                     background:#f0f8ff; border-left:4px solid #1e90ff">
             <h3>🧠 Stress Level</h3>
             <p style="font-size:1.5rem; font-weight:bold; margin:0;">{stress_level}</p>
+            <p style="font-size:1.2rem;">Mean Value: {stress_mean:.2f}</p>
         </div>
         """, unsafe_allow_html=True)
-    
+
     with col2:
         st.markdown(f"""
         <div style="padding:1rem; border-radius:12px; 
                     background:#fff0f5; border-left:4px solid #ff69b4">
             <h3>💼 Performance Level</h3>
             <p style="font-size:1.5rem; font-weight:bold; margin:0;">{perf_level}</p>
+            <p style="font-size:1.2rem;">Mean Value: {perf_mean:.2f}</p>
         </div>
         """, unsafe_allow_html=True)
 
-    # Display employer action
+    # --- Visual Gauges for Mean Values ---
+    fig1 = go.Figure(go.Indicator(
+        mode="gauge+number",
+        value=stress_mean,
+        domain={'x': [0, 1], 'y': [0, 1]},
+        gauge={
+            'axis': {'range': [1, 5]},
+            'bar': {'color': "#8A2BE2"},
+            'steps': [
+                {'range': [1, 2.5], 'color': "#ff9a9a"},
+                {'range': [2.5, 3.5], 'color': "#fff59d"},
+                {'range': [3.5, 5], 'color': "#a6f0c6"},
+            ]}
+    ))
+    st.plotly_chart(fig1, use_container_width=True)
+
+    fig2 = go.Figure(go.Indicator(
+        mode="gauge+number",
+        value=perf_mean,
+        domain={'x': [0, 1], 'y': [0, 1]},
+        gauge={
+            'axis': {'range': [1, 5]},
+            'bar': {'color': "#00CED1"},
+            'steps': [
+                {'range': [1, 2.5], 'color': "#ff9a9a"},
+                {'range': [2.5, 3.5], 'color': "#fff59d"},
+                {'range': [3.5, 5], 'color': "#a6f0c6"},
+            ]}
+    ))
+    st.plotly_chart(fig2, use_container_width=True)
+
+    # Show Employer Action below results
     st.markdown(f"""
     <div style="margin-top:2rem; padding:1.5rem; background:#f5f5dc; 
-                border-radius:12px; border-left:4px solid #ffd700">
+                border-radius:12px; border-left:4px solid #FFD700">
         <h3>Recommended Employer Action:</h3>
-        <p style="font-size:1.8rem; font-weight:bold; color:#2e8b57">{employer_action}</p>
+        <p style='font-size:1.4rem;color:#3700B3;font-weight:bold'>{employer_action}</p>
     </div>
     """, unsafe_allow_html=True)
 
-    # Navigation buttons
-    st.markdown("---")
+    # Restart button
     if st.button("🔄 Start New Assessment"):
         st.session_state.clear()
         st.session_state.page = 1
         st.rerun()
+
 
 
 
