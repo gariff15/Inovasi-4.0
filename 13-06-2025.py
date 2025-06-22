@@ -345,7 +345,7 @@ def show_results():
         ("Very High", "High"): "GOOD BUT NEEDS COUNSELING",
     }
 
-    employer_action = pairing_map.get((stress_level, perf_level), "No recommendation available")
+    employer_action = pairing_map.get((stress_level, perf_level))
 
     # Display results header and animations
     st.markdown("""
