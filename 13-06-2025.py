@@ -318,17 +318,6 @@ def show_results():
     perf_mean = calculate_mean(perf_scores)
     perf_level = classify_performance_level(perf_mean)
 
-    # Call your Employer Action function here, passing the classified levels
-    employer_action = get_employer_action(stress_level, perf_level)
-
-    # Now display the results along with the employer action
-    st.write(f"Stress Level: {stress_level}")
-    st.write(f"Performance Level: {perf_level}")
-    st.write(f"Employer Action: {employer_action}")
-
-    # ...rest of your plotting and UI code...
-
-
     # Normalize classification strings to exact keys used in pairing_map
     stress_level = stress_level.strip().title()
     perf_level = perf_level.strip().title()
@@ -355,7 +344,8 @@ def show_results():
         ("Very High", "High"): "GOOD BUT NEEDS COUNSELING",
     }
 
-    employer_action = pairing_map.get((stress_level, perf_level))
+    # Get the employer action based on the stress and performance levels
+    employer_action = pairing_map.get((stress_level, perf_level), "NO RECOMMENDATION")
 
     # Display results header and animations
     st.markdown("""
@@ -419,7 +409,7 @@ def show_results():
 
     st.markdown("---")
 
-    col3, col4 = st.columns([1,1])
+    col3, col4 = st.columns([1, 1])
     with col3:
         if st.button("⬅️ Back to Performance Questions", key="back2"):
             st.session_state.page = 2
@@ -431,6 +421,7 @@ def show_results():
                     del st.session_state[k]
             st.session_state.page = 1
             st.rerun()
+
 
 
 # --- App state ---
