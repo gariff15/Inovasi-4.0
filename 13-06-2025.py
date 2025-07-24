@@ -138,14 +138,14 @@ def calculate_mean(scores: List[int]) -> float:
 
 def classify_stress_level(mean: float) -> str:
     if mean < 1.5: return "Very Low"
-    elif mean < 2: return "Low"
+    elif mean < 2.5: return "Low"
     elif mean < 3: return "Moderate"
     elif mean < 4: return "High"
     return "Very High"
 
 def classify_performance_level(mean: float) -> str:
     if mean < 1.5: return "Very High"
-    elif mean < 2: return "High"
+    elif mean < 2.5: return "High"
     elif mean < 3: return "Moderate"
     elif mean < 4: return "Low"
     return "Very Low"
@@ -320,24 +320,25 @@ def show_results():
 
     # Pairing map for employer actions
     pairing_map = {
-        ("Very Low", "Very Low"): "NEEDS TRAINING",
-        ("Very Low", "Low"): "NEEDS TRAINING",
-        ("Very Low", "Moderate"): "NEEDS TRAINING",
-        ("Very Low", "High"): "GOOD",
-        ("Very Low", "Very High"): "EXCELLENT",
-        ("Low", "Very Low"): "NEEDS TRAINING",
-        ("Low", "Low"): "NEEDS TRAINING",
-        ("Low", "Moderate"): "NEEDS TRAINING",
-        ("Low", "High"): "GOOD",
-        ("Low", "Very High"): "EXCELLENT",
-        ("Moderate", "Very Low"): "NEEDS MONITORING AND TRAINING",
-        ("Moderate", "Low"): "NEEDS MONITORING AND TRAINING",
-        ("Moderate", "Moderate"): "NEEDS MONITORING AND TRAINING",
-        ("High", "Very High"): "EXCELLENT BUT NEEDS COUNSELING",
+        ("Very Low", "Very Low"): "Mental Health is excellent, but performance needs training",
+        ("Very Low", "Low"): "Mental Health is excellent, but performance needs training",
+        ("Very Low", "Moderate"): "Mental Health is excellent, but performance needs monitoring",
+        ("Very Low", "High"): "Mental Health is excellent, and performance is good",
+        ("Very Low", "Very High"): "Mental Health is excellent, and performance is excellent",
+        ("Low", "Very Low"): "Mental Health is good, but performance needs training",
+        ("Low", "Low"): "Mental Health is good, but performance needs training",
+        ("Low", "Moderate"): "Mental Health is good, but performance needs monitoring",
+        ("Low", "High"): "Mental health and performance are good",
+        ("Low", "Very High"): "Mental health is good and performance is excellent",
+        ("Moderate", "Very Low"): "Mental health needs monitoring, and performance needs training",
+        ("Moderate", "Low"): "Mental health needs monitoring, and performance needs training",
+        ("Moderate", "Moderate"): "Mental health and performance need monitoring",
+        ("Moderate", "High"): "EXCELLENT BUT NEEDS COUNSELING",
         ("Very High", "Very Low"): "NEEDS COUNSELING AND TRAINING",
         ("Very High", "Low"): "NEEDS COUNSELING AND TRAINING",
         ("Very High", "Moderate"): "NEEDS COUNSELING AND TRAINING",
         ("Very High", "High"): "GOOD BUT NEEDS COUNSELING",
+        ("Very High", "Very High"): "Mental health needs counselling, but performance is excellent"
     }
 
     employer_action = pairing_map.get((stress_level, perf_level), "NO RECOMMENDATION")
